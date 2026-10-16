@@ -21,6 +21,7 @@ public class DocumentData {
     private String childName;
     private Integer childAge;
     private String childGender;
+    private String city;
     private String toothType;
     private String toothPosition;
     private String giftType;
