@@ -2,15 +2,15 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { Home } from './pages/Home';
-// import { Success } from './pages/Success';
-// import Cancel from './pages/Cancel';
-
+import { Success } from './pages/Succes';
+import { Cancel } from './pages/Cancel';
+import { FAQ } from './pages/FAQ';
 // // Import des pages légales
 // import MentionsLegales from './pages/legal/MentionsLegales';
 // import Cgv from './pages/legal/Cgv';
 // import Confidentialite from './pages/legal/Confidentialite';
 // import Contact from './pages/legal/Contact';
-// import { FAQ } from './pages/FAQ';
+
 // import ArticleView from './pages/ArticleView';
 // import BlogIndex from './pages/blog/BlogIndex';
 
@@ -23,13 +23,13 @@ export default function App() {
           <Route path="/" element={<Home />} />
           
           {/* Route de succès après paiement Stripe (Téléchargement du PDF) */}
-          {/* <Route path="/success" element={<Success />} />
+          <Route path="/success" element={<Success />} />
           
-          {/* Route d'annulation de paiement */}
-          {/* <Route path="/cancel" element={<Cancel />} /> */}
+          {/* Route d'annulation de paiement  */}
+          <Route path="/cancel" element={<Cancel />} />
 
-          {/* Route pour la FAQ */}
-          {/* <Route path="/faq" element={<FAQ />} /> */}
+          {/* Route pour la FAQ  */}
+          <Route path="/faq" element={<FAQ />} />
           
           {/* Routes légales (obligatoires pour ton entreprise en France) */}
           {/* <Route path="/mentions-legales" element={<MentionsLegales />} /> */}
