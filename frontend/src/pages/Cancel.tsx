@@ -18,7 +18,7 @@ export const Cancel: React.FC = () => {
         <div className="space-y-3">
           <Link
             to="/"
-            className="block w-full py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl transition"
+            className="block w-full py-3 px-6 bg-linear-to-r from-pink-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl transition"
           >
             Réessayer la personnalisation 🪄
           </Link>

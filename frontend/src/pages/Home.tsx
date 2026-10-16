@@ -70,7 +70,7 @@ export function Home() {
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-950 via-indigo-950 to-slate-950 text-slate-100 flex flex-col justify-between font-sans">
       <Helmet>
-        <title>Le Kit Magique de la Petite Souris - Certificat, Lettre &amp; Enveloppe</title>
+        <title>Le Kit Magique de la Petite Souris - Certificat, Lettre &amp; Enveloppe (1,99€)</title>
       </Helmet>
 
       <Navbar />
@@ -82,9 +82,14 @@ export function Home() {
           
           {/* COLONNE GAUCHE : Texte & Réassurance */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <span className="inline-block px-4 py-1.5 bg-slate-900 border border-pink-500/30 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
-              🌸 Kit Complet &amp; Enveloppe Magique 🌸
-            </span>
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="inline-block px-4 py-1.5 bg-slate-900 border border-pink-500/30 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
+                🌸 Kit Complet &amp; Enveloppe Magique 🌸
+              </span>
+              <span className="inline-block px-3 py-1 bg-amber-400 text-slate-950 font-black rounded-full text-xs shadow-md animate-pulse">
+                Seulement 1,99 € 💥
+              </span>
+            </div>
 
             <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight">
               Le Kit Magique de la <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-400 via-purple-300 to-rose-300">Petite Souris</span>
@@ -93,7 +98,7 @@ export function Home() {
             <p className="text-slate-300 text-sm md:text-base font-medium leading-relaxed">
               {!isQuizCompleted
                 ? "Immortalisez la perte de la première dent de lait. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris, et le gabarit de son enveloppe décorée à plier !"
-                : `Le dossier magique est prêt pour ${formData.childName} ! Vérifiez l'aperçu à droite et commandez votre kit complet.`}
+                : `Le dossier magique est prêt pour ${formData.childName} ! Vérifiez l'aperçu à droite et téléchargez votre kit complet.`}
             </p>
 
             {/* Badges de réassurance */}
@@ -110,9 +115,12 @@ export function Home() {
                 <span className="text-lg">✂️</span>
                 <span className="text-xs font-bold text-slate-200">Enveloppe à Plier</span>
               </div>
-              <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
-                <span className="text-lg">✨</span>
-                <span className="text-xs font-bold text-slate-200">Le Tout pour 1,99€</span>
+              <div className="flex items-center gap-2.5 p-3 bg-linear-to-r from-amber-400/20 to-pink-500/20 border border-amber-400/40 rounded-2xl shadow-xs">
+                <span className="text-lg">⚡</span>
+                <div>
+                  <span className="block text-[10px] text-amber-300 font-bold uppercase">Téléchargement Direct</span>
+                  <span className="text-xs font-extrabold text-white">Tout inclus à 1,99€</span>
+                </div>
               </div>
             </div>
           </div>
@@ -127,11 +135,16 @@ export function Home() {
               <div className="space-y-6">
                 
                 {/* FORMULAIRE & APERÇU RÉALISTE */}
-                <form onSubmit={handleCheckout} className="bg-slate-900/90 border-2 border-pink-500/30 p-6 rounded-3xl shadow-xl space-y-5 text-left text-white">
+                <form onSubmit={handleCheckout} className="bg-slate-900/90 border-2 border-pink-500/30 p-6 rounded-3xl shadow-xl space-y-5 text-left text-white relative overflow-hidden">
                   
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  {/* Petit Ruban Promo en haut à droite */}
+                  <div className="absolute -top-1 -right-1 bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl shadow-md">
+                    Kit Complet • 1,99 €
+                  </div>
+
+                  <div className="flex items-center justify-between border-b border-slate-800 pb-3 pt-2">
                     <h2 className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <span>✨</span> Votre Kit Magique Tout-en-Un
+                      <span>✨</span> Aperçu de votre Kit
                     </h2>
                     <button
                       type="button"
@@ -202,7 +215,7 @@ export function Home() {
 
                   <div>
                     <label className="block text-xs uppercase font-bold text-slate-300 mb-1">
-                      Adresse e-mail du parent
+                      Adresse e-mail du parent (pour la réception du PDF)
                     </label>
                     <input
                       type="email"
@@ -223,9 +236,18 @@ export function Home() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full py-3.5 bg-linear-to-r from-pink-400 via-rose-400 to-purple-400 hover:opacity-90 text-slate-950 font-black rounded-xl shadow-lg uppercase tracking-wider text-xs transition transform hover:scale-[1.01] disabled:opacity-50 cursor-pointer"
+                    className="w-full py-4 bg-linear-to-r from-amber-400 via-pink-500 to-purple-500 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-xl uppercase tracking-wider text-xs transition transform hover:scale-[1.01] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                   >
-                    {isLoading ? "Préparation du kit..." : "🎁 Obtenir mon Kit Magique Tout-en-Un (1,99 €)"}
+                    {isLoading ? (
+                      "Préparation du kit..."
+                    ) : (
+                      <>
+                        <span>🎁 Recevoir mon Kit Magique</span>
+                        <span className="bg-slate-950 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-400/30">
+                          1,99 €
+                        </span>
+                      </>
+                    )}
                   </button>
 
                 </form>

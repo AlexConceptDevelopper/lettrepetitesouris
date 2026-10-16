@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
+import { getApiUrl } from '../apis/client';
 
-export const Success: React.FC = () => {
+export const Succes: React.FC = () => {
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get('session_id');
 
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState<boolean>(false);
-
-  // URL du backend (Railway)
-  const backendUrl = import.meta.env.VITE_API_URL || 'https://votre-backend-railway.up.railway.app';
 
   useEffect(() => {
     if (!sessionId) {
@@ -19,8 +17,7 @@ export const Success: React.FC = () => {
       return;
     }
 
-    // Déclenche ou confirme le traitement du paiement post-Stripe
-    fetch(`${backendUrl}/api/orders/success?session_id=${sessionId}`, {
+    fetch(getApiUrl(`/api/orders/success?session_id=${sessionId}`), {
       method: 'POST',
     })
       .then((res) => {
@@ -34,17 +31,16 @@ export const Success: React.FC = () => {
       })
       .catch((err) => {
         console.error(err);
-        // Même en cas de délai d'attente, on permet le téléchargement si le paiement est effectif
         setLoading(false);
       });
-  }, [sessionId, backendUrl]);
+  }, [sessionId]);
 
   const handleDownloadPdf = async () => {
     if (!sessionId) return;
     setDownloading(true);
 
     try {
-      const response = await fetch(`${backendUrl}/api/orders/download-pdf?session_id=${sessionId}`);
+      const response = await fetch(getApiUrl(`/api/orders/download-pdf?session_id=${sessionId}`));
       if (!response.ok) {
         throw new Error('Impossible de récupérer le fichier PDF.');
       }
@@ -89,12 +85,12 @@ export const Success: React.FC = () => {
         ) : (
           <div className="space-y-6">
             <div className="text-5xl animate-bounce">✨ 🐭 💌</div>
-            <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-pink-400">
+            <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-pink-400">
               Merci pour votre commande !
             </h1>
             
             <p className="text-slate-300 text-sm leading-relaxed">
-              La Petite Souris prépare soigneusement votre kit. Un e-mail contenant le coffret magique en pièce jointe (Certificat, Lettre et Enveloppe) vient de vous être envoyé.
+              La Petite Souris prépare soigneusement votre kit. Un e-mail contenant le coffret magique en pièce jointe vient de vous être envoyé.
             </p>
 
             <div className="bg-amber-400/10 border border-amber-400/20 rounded-xl p-4 text-xs text-amber-200 text-left space-y-1">
@@ -105,7 +101,7 @@ export const Success: React.FC = () => {
               <button
                 onClick={handleDownloadPdf}
                 disabled={downloading}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95 disabled:opacity-50"
+                className="w-full py-3.5 px-6 bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95 disabled:opacity-50 cursor-pointer"
               >
                 {downloading ? 'Chargement du PDF...' : 'Télécharger mon Kit PDF Directement 📄'}
               </button>
