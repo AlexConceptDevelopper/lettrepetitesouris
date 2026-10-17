@@ -11,11 +11,11 @@ public class PdfService {
     public byte[] generateCertificatePdf(ToothOrder order) {
         DocumentData doc = order.getDocumentData();
         
-        String childName = (doc != null && doc.getChildName() != null) ? doc.getChildName() : "Léa";
+        String childName = (doc != null && doc.getChildName() != null) ? doc.getChildName() : "Alex";
         String childAge = (doc != null && doc.getChildAge() != null) ? String.valueOf(doc.getChildAge()) : "6";
-        String toothType = (doc != null && doc.getToothType() != null) ? doc.getToothType() : "Molaire";
+        String toothType = (doc != null && doc.getToothType() != null) ? doc.getToothType() : "Première dent ! - Bas - Côté";
         String city = (doc != null && doc.getCity() != null) ? doc.getCity() : "Paris";
-        String gift = (doc != null && doc.getGiftType() != null) ? doc.getGiftType() : "Un petit cadeau magique";
+        String gift = (doc != null && doc.getGiftType() != null) ? doc.getGiftType() : "Pièce de 2 €";
         
         String gender = (doc != null && doc.getChildGender() != null) ? doc.getChildGender() : "F";
         String cherForm = "M".equals(gender) ? "Mon cher " + childName : "Ma chère " + childName;
@@ -30,167 +30,316 @@ public class PdfService {
                 <head>
                     <meta charset='UTF-8'>
                     <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Montserrat:wght@400;700;900&display=swap');
+
                         @page { size: A4 landscape; margin: 0; }
-                        body { font-family: 'Helvetica', 'Arial', sans-serif; margin: 0; padding: 0; background: #fff; -webkit-print-color-adjust: exact; }
-                        
-                        /* Pages en format Paysage (297mm x 210mm) */
-                        .page { width: 297mm; height: 210mm; page-break-after: always; box-sizing: border-box; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fffdfa; }
-                        
-                        .logo { width: 55px; height: auto; margin-bottom: 5px; }
+                        body { font-family: 'Montserrat', Arial, sans-serif; margin: 0; padding: 0; background: #fff; -webkit-print-color-adjust: exact; }
 
-                        /* CERTIFICAT PAYSAGE */
-                        .certificate-container { width: 260mm; height: 175mm; border: 4px double #d4af37; padding: 25px; border-radius: 15px; background: radial-gradient(circle, #ffffff 60%, #fff9f0 100%); text-align: center; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
-                        .kingdom { font-size: 13px; color: #b8860b; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
-                        .cert-title { color: #8b0000; font-size: 28px; font-weight: bold; margin: 5px 0; text-transform: uppercase; }
-                        .cert-subtitle { font-size: 11px; color: #666; font-style: italic; margin-bottom: 15px; }
-                        .cert-certifies { font-size: 12px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
-                        .cert-name-box { background: #fff0f5; border: 2px dashed #e91e63; padding: 10px 25px; border-radius: 10px; display: inline-block; margin: 10px auto; }
-                        .cert-name { color: #8b0000; font-size: 24px; font-weight: bold; }
-                        .cert-desc { font-size: 15px; color: #444; line-height: 1.5; margin: 10px 0; }
-                        .cert-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 12px; font-size: 11px; color: #666; }
+                        /* ---------------- PAGE 1 : CERTIFICAT PAYSAGE ---------------- */
+                        .page-certificat { 
+                            width: 297mm; 
+                            height: 210mm; 
+                            page-break-after: always; 
+                            box-sizing: border-box; 
+                            position: relative; 
+                            overflow: hidden; 
+                            display: flex; 
+                            justify-content: center; 
+                            align-items: center; 
+                            background: #fffdf5; 
+                        }
 
-                        /* LETTRE (Portrait) */
-                        .page-portrait { width: 210mm; height: 297mm; page-break-after: always; box-sizing: border-box; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fff9fb; }
-                        .letter-container { width: 180mm; height: 250mm; border: 2px solid #f8bbd0; padding: 35px; border-radius: 15px; background: #fff9fb; text-align: left; box-sizing: border-box; display: flex; flex-direction: column; justify-content: space-between; }
-                        .letter-header { text-align: center; border-bottom: 1px solid #fce4ec; padding-bottom: 15px; }
-                        .letter-title { color: #8b0000; font-size: 22px; font-weight: bold; margin: 5px 0; }
-                        .letter-body { font-size: 14px; color: #333; line-height: 1.7; flex-grow: 1; margin-top: 15px; }
-                        .letter-footer { text-align: right; margin-top: 20px; font-style: italic; color: #8b0000; font-weight: bold; }
+                        .cert-outer-border {
+                            width: 270mm;
+                            height: 185mm;
+                            border: 3px solid #fbcfe8;
+                            border-radius: 24px;
+                            padding: 10px;
+                            box-sizing: border-box;
+                            background: #ffffff;
+                        }
 
-                        /* ENVELOPPE PAYSAGE AVEC LIGNES DE DÉCOUPE ET DE PLIAGE */
-                        .envelope-page { width: 297mm; height: 210mm; page-break-after: avoid; box-sizing: border-box; position: relative; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #fff; }
+                        .cert-inner-border {
+                            width: 100%%;
+                            height: 100%%;
+                            border: 2px dashed #f59e0b;
+                            border-radius: 18px;
+                            padding: 25px 40px;
+                            box-sizing: border-box;
+                            text-align: center;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+
+                        .cert-header-title { font-size: 11px; color: #b45309; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+                        .cert-main-title { font-size: 28px; font-weight: 900; color: #881337; margin: 4px 0; text-transform: uppercase; }
+                        .cert-subtitle { font-size: 11px; color: #9ca3af; font-style: italic; }
+
+                        .cert-certifies { font-size: 11px; color: #6b7280; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 10px; }
                         
-                        /* Ligne de découpe extérieure (Pointillés larges) */
-                        .cut-container {
-                            width: 230mm;
-                            height: 140mm;
-                            border: 2px dashed #e91e63;
-                            border-radius: 12px;
-                            background: #fff9fb;
+                        .cert-name-pill {
+                            background: #be123c;
+                            color: #ffffff;
+                            font-size: 22px;
+                            font-weight: 900;
+                            padding: 8px 30px;
+                            border-radius: 50px;
+                            display: inline-block;
+                            margin: 10px 0;
+                            box-shadow: 0 4px 10px rgba(190, 18, 60, 0.2);
+                        }
+
+                        .cert-desc { font-size: 13px; color: #374151; margin: 8px 0; }
+                        .cert-desc b { color: #be123c; }
+
+                        .cert-footer-grid {
+                            width: 100%%;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-end;
+                            border-top: 1px solid #f3f4f6;
+                            padding-top: 10px;
+                        }
+
+                        .cert-info { text-align: left; font-size: 10px; color: #4b5563; line-height: 1.6; }
+
+                        .cert-stamp {
+                            width: 50px;
+                            height: 50px;
+                            background: #fbbf24;
+                            border-radius: 50%%;
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            font-size: 22px;
+                            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.4);
+                        }
+
+                        /* ---------------- PAGE 2 : LETTRE PORTRAIT ---------------- */
+                        .page-lettre { 
+                            width: 210mm; 
+                            height: 297mm; 
+                            page-break-after: always; 
+                            box-sizing: border-box; 
+                            position: relative; 
+                            overflow: hidden; 
+                            display: flex; 
+                            justify-content: center; 
+                            align-items: center; 
+                            background: #fdfbf7; 
+                        }
+
+                        .lettre-card {
+                            width: 175mm;
+                            height: 255mm;
+                            background: #fffdfa;
+                            border: 2px solid #fbcfe8;
+                            border-radius: 24px;
+                            padding: 40px;
+                            box-sizing: border-box;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                        }
+
+                        .lettre-header { text-align: center; border-bottom: 1px solid #fce7f3; padding-bottom: 15px; }
+                        .lettre-title { font-size: 20px; font-weight: 900; color: #881337; margin-top: 5px; }
+                        .lettre-sub { font-size: 10px; color: #f43f5e; font-weight: 700; tracking: 1px; }
+
+                        .lettre-body {
+                            font-size: 15px;
+                            color: #1f2937;
+                            line-height: 1.8;
+                            font-style: italic;
+                            margin: 20px 0;
+                        }
+                        .lettre-body b { font-style: normal; font-weight: 700; color: #000; }
+
+                        .lettre-footer {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: flex-end;
+                            border-top: 1px solid #f3f4f6;
+                            padding-top: 15px;
+                        }
+
+                        .lettre-signature { text-align: right; color: #be123c; font-weight: 700; font-size: 14px; }
+
+                        /* ---------------- PAGE 3 : ENVELOPPE A4 PAYSAGE ---------------- */
+                        .page-enveloppe {
+                            width: 297mm;
+                            height: 210mm;
+                            page-break-after: avoid;
+                            box-sizing: border-box;
+                            position: relative;
                             display: flex;
                             flex-direction: column;
                             justify-content: center;
                             align-items: center;
+                            background: #ffffff;
+                            padding: 15mm;
+                        }
+
+                        .env-cut-outer {
+                            width: 240mm;
+                            height: 160mm;
+                            border: 2px dashed #f43f5e;
+                            border-radius: 16px;
+                            background: #fff1f2;
                             position: relative;
-                            box-shadow: 0 4px 15px rgba(233,30,99,0.08);
+                            box-sizing: border-box;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: space-between;
+                            align-items: center;
+                            padding: 12px;
                         }
 
-                        /* Lignes de pliage intérieures (Pointillés fins avec icônes) */
-                        .fold-line-h {
+                        .env-rabat-haut {
+                            background: #ffe4e6;
+                            border: 1px dashed #f43f5e;
+                            color: #be123c;
+                            font-size: 9px;
+                            font-weight: 800;
+                            padding: 6px 30px;
+                            border-radius: 6px;
+                        }
+
+                        .env-center-box {
+                            width: 75%%;
+                            height: 75mm;
+                            background: #ffffff;
+                            border: 1px solid #fecdd3;
+                            border-radius: 12px;
+                            padding: 15px 20px;
+                            box-sizing: border-box;
+                            position: relative;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                        }
+
+                        .env-stamp {
                             position: absolute;
-                            left: 10mm;
-                            right: 10mm;
-                            top: 50%%;
-                            border-top: 1.5px dashed #b0bec5;
-                        }
-                        
-                        .stamp { 
-                            position: absolute; 
-                            top: 15px; 
-                            right: 20px; 
-                            width: 18mm; 
-                            height: 22mm; 
-                            border: 2px dashed #d4af37; 
-                            border-radius: 4px; 
-                            background: #fff; 
-                            font-size: 7pt; 
-                            color: #d4af37; 
-                            text-align: center; 
-                            padding-top: 3mm; 
+                            top: 12px;
+                            right: 15px;
+                            border: 1px dashed #f43f5e;
+                            border-radius: 8px;
+                            padding: 6px 10px;
+                            text-align: center;
+                            background: #fff1f2;
+                            font-size: 8px;
+                            color: #be123c;
+                            font-weight: 700;
                         }
 
-                        .envelope-box { 
-                            width: 65%%; 
-                            height: 60mm; 
-                            border: 2px solid #8b0000; 
-                            border-radius: 8px; 
-                            display: flex; 
-                            flex-direction: column; 
-                            justify-content: center; 
-                            align-items: center; 
-                            background: #ffffff; 
-                            z-index: 2;
+                        .env-to { font-size: 8px; color: #9ca3af; font-weight: 700; text-transform: uppercase; }
+                        .env-name { font-size: 22px; font-weight: 900; color: #881337; margin: 4px 0; }
+                        .env-sub { font-size: 11px; color: #4b5563; }
+
+                        .env-bottom-controls {
+                            width: 80%%;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+
+                        .env-pill-fold {
+                            background: #ffffff;
+                            border: 1px dashed #f43f5e;
+                            color: #be123c;
+                            font-size: 8px;
+                            font-weight: 800;
+                            padding: 4px 12px;
+                            border-radius: 12px;
                         }
                     </style>
                 </head>
                 <body>
-                    <!-- PAGE 1 : CERTIFICAT OFFICIEL (PAYSAGE) -->
-                    <div class='page'>
-                        <div class='certificate-container'>
-                            <div>
-                                <img src='https://lettrepetitesouris.fr/favicon.png' class='logo' alt='Logo' />
-                                <div class='kingdom'>✨ Royaume des Dents de Lait ✨</div>
-                                <div class='cert-title'>Certificat Officiel</div>
-                                <div class='cert-subtitle'>Attestation de récolte sous l'oreiller</div>
-                            </div>
-                            <div>
-                                <div class='cert-certifies'>Ce document certifie que</div>
-                                <div class='cert-name-box'>
-                                    <span class='cert-name'>%s (%s ans)</span>
+                    <!-- PAGE 1 : CERTIFICAT PAYSAGE -->
+                    <div class='page-certificat'>
+                        <div class='cert-outer-border'>
+                            <div class='cert-inner-border'>
+                                <div>
+                                    <div class='cert-header-title'>🐭 ROYAUME DES DENTS DE LAIT 🐭</div>
+                                    <div class='cert-main-title'>CERTIFICAT OFFICIEL</div>
+                                    <div class='cert-subtitle'>Attestation de récolte sous l'oreiller</div>
                                 </div>
-                                <div class='cert-desc'>
-                                    a courageusement confié sa dent de lait (<b>%s</b>) à la Petite Souris.
+
+                                <div>
+                                    <div class='cert-certifies'>CE DOCUMENT CERTIFIE QUE</div>
+                                    <div class='cert-name-pill'>%s (%s ans)</div>
+                                    <div class='cert-desc'>
+                                        a confié sa dent de lait (<b>%s</b>) à la Petite Souris.
+                                    </div>
                                 </div>
-                            </div>
-                            <div class='cert-footer'>
-                                <div>🎁 Récompense : %s</div>
-                                <div>👑 Lieu : Grand Registre du Royaume</div>
+
+                                <div class='cert-footer-grid'>
+                                    <div class='cert-info'>
+                                        🎁 <b>Récompense :</b> %s<br/>
+                                        📍 <b>Lieu :</b> Grand Registre du Royaume
+                                    </div>
+                                    <div class='cert-stamp'>🐭</div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- PAGE 2 : LETTRE (PORTRAIT) -->
-                    <div class='page-portrait' style='@page { size: A4 portrait; }'>
-                        <div class='letter-container'>
-                            <div class='letter-header'>
-                                <img src='https://lettrepetitesouris.fr/favicon.png' class='logo' alt='Logo' />
-                                <div class='letter-title'>LA LETTRE DE LA PETITE SOURIS</div>
-                                <div style='font-size: 10px; color: #e91e63; text-transform: uppercase; letter-spacing: 1px;'>Message magique sous l'oreiller</div>
+                    <!-- PAGE 2 : LETTRE PORTRAIT -->
+                    <div class='page-lettre' style='@page { size: A4 portrait; }'>
+                        <div class='lettre-card'>
+                            <div class='lettre-header'>
+                                <div style='font-size: 22px;'>🐭 ✉️</div>
+                                <div class='lettre-title'>LA LETTRE DE LA PETITE SOURIS</div>
+                                <div class='lettre-sub'>MESSAGE MAGIQUE SOUS L'OREILLER</div>
                             </div>
-                            <div class='letter-body'>
+
+                            <div class='lettre-body'>
                                 <p><b>%s,</b></p>
                                 <p>Je suis bien passée cette nuit pendant que tu dormais profondément à <b>%s</b> ! J'ai récupéré ta jolie dent (<b>%s</b>) sous ton oreiller. Quelle belle dent de lait bien entretenue ! En échange, je t'ai laissé une petite surprise : <b>%s</b>.</p>
                                 <p>Continue de bien te brosser les dents matin et soir pour garder un sourire éclatant !</p>
                             </div>
-                            <div>
-                                <div style='font-size: 10px; color: #888;'>Royaume des Dents • 2026</div>
-                                <div class='letter-footer'>
-                                    Avec toute ma tendresse,<br>
-                                    <span style='font-size: 16px;'>La Petite Souris 🌸</span>
+
+                            <div class='lettre-footer'>
+                                <div style='font-size: 10px; color: #9ca3af;'>Royaume des Dents • 2026</div>
+                                <div class='lettre-signature'>
+                                    <div style='font-size: 11px; font-weight: normal; font-style: italic;'>Avec toute ma tendresse,</div>
+                                    <div>La Petite Souris 🌸</div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- PAGE 3 : ENVELOPPE MAGIQUE (PAYSAGE AVEC LIGNES DE DÉCOUPE ET PLI) -->
-                    <div class='envelope-page'>
-                        <div style='display: flex; align-items: center; gap: 8px; margin-bottom: 15px;'>
-                            <img src='https://lettrepetitesouris.fr/favicon.png' style='width: 25px;' alt='Logo' />
-                            <div style='font-size: 13px; font-weight: bold; color: #e91e63; text-transform: uppercase;'>
-                                ✂️ Gabarit de l'Enveloppe Magique (Découper le long des pointillés extérieurs)
-                            </div>
-                        </div>
-                        
-                        <div class='cut-container'>
-                            <!-- Repères de pliage -->
-                            <div class='fold-line-h'></div>
-                            <div style='position: absolute; top: 10mm; left: 50%%; font-size: 9pt; color: #78909c; transform: translateX(-50%%); background: #fff9fb; padding: 0 8px;'>
-                                ⤹ Ligne de pliage ⤸
-                            </div>
-
-                            <div class='stamp'>
-                                🌸<br/><b>Magique</b>
-                            </div>
-                            
-                            <div class='envelope-box'>
-                                <div style='font-size: 9px; color: #888; text-transform: uppercase; margin-bottom: 2px;'>Destinataire :</div>
-                                <div style='font-size: 24px; font-weight: bold; color: #8b0000;'>%s</div>
-                                <div style='font-size: 11px; color: #555; font-style: italic; margin-top: 4px;'>Sous l'oreiller 🛏️</div>
-                            </div>
+                    <!-- PAGE 3 : ENVELOPPE A4 PAYSAGE -->
+                    <div class='page-enveloppe'>
+                        <div style='width: 100%%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;'>
+                            <div style='font-size: 12px; font-weight: 800; color: #be123c;'>✂️ GABARIT D'ENVELOPPE A4</div>
+                            <div style='font-size: 10px; color: #6b7280;'>À découper et plier</div>
                         </div>
 
-                        <div style='font-size: 11px; color: #555; margin-top: 15px; background: #fff5f8; padding: 8px 20px; border-radius: 20px; border: 1px solid #f8bbd0;'>
-                            ✂️ <b>1. Découpez</b> le long du trait rose pointillé &nbsp;•&nbsp; ✉️ <b>2. Pliez</b> le long des repères &nbsp;•&nbsp; 🪄 <b>3. Collez les rabats !</b>
+                        <div class='env-cut-outer'>
+                            <div class='env-rabat-haut'>▼ RABAT HAUT</div>
+
+                            <div class='env-center-box'>
+                                <div class='env-stamp'>
+                                    🐭<br/>1ER CHOIX
+                                </div>
+                                <div class='env-to'>DESTINATAIRE :</div>
+                                <div class='env-name'>%s</div>
+                                <div class='env-sub'>Sous l'oreiller 🛏️</div>
+                            </div>
+
+                            <div class='env-bottom-controls'>
+                                <div class='env-pill-fold'>► PLIER</div>
+                                <div class='env-rabat-haut' style='background: #ffe4e6;'>▲ RABAT BAS</div>
+                                <div class='env-pill-fold'>PLIER ◄</div>
+                            </div>
+                        </div>
+
+                        <div style='font-size: 10px; color: #6b7280; margin-top: 10px;'>
+                            ✨ 1. Imprimez • 2. Découpez les pointillés ✂️ • 3. Pliez et collez !
                         </div>
                     </div>
                 </body>
