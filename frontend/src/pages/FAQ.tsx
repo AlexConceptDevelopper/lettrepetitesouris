@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 interface FAQ {
   question: string;
@@ -9,24 +10,29 @@ interface FAQ {
 const faqData: FAQ[] = [
   {
     question: "Sous quel format vais-je recevoir le Kit ?",
-    answer: "Vous recevrez immédiatement après votre paiement un document PDF haute résolution de 3 pages au format A4 prêt à être imprimé : le Certificat officiel, la Lettre personnalisée et l'Enveloppe féerique à découper et plier."
+    answer:
+      "Vous recevrez immédiatement après votre paiement un document PDF haute résolution de 3 pages au format A4 prêt à être imprimé : le Certificat officiel, la Lettre personnalisée et l'Enveloppe féerique à découper et plier.",
   },
   {
     question: "En combien de temps est livré le Kit ?",
-    answer: "C'est instantané ! Dès le paiement validé (1,99 €), vous pouvez télécharger le Kit directement sur la page de confirmation et vous recevez également une copie par e-mail dans les minutes qui suivent."
+    answer:
+      "C'est instantané ! Dès le paiement validé (1,99 €), vous pouvez télécharger le Kit directement sur la page de confirmation et vous recevez également une copie par e-mail dans les minutes qui suivent.",
   },
   {
     question: "Comment imprimer et fabriquer l'enveloppe ?",
-    answer: "L'impression se fait sur n'importe quelle imprimante familiale (A4). Pour l'enveloppe, il suffit de suivre les pointillés, découper les contours et ajouter une touche de colle sur les rabats."
+    answer:
+      "L'impression se fait sur n'importe quelle imprimante familiale (A4). Pour l'enveloppe, il suffit de suivre les pointillés, découper les contours et ajouter une touche de colle sur les rabats.",
   },
   {
     question: "Que faire si je ne trouve pas l'e-mail après l'achat ?",
-    answer: "Pensez à vérifier votre dossier 'Spams' ou 'Courriers indésirables'. Si vous n'avez toujours rien reçu, vous pouvez télécharger le PDF depuis la page de succès ou nous contacter pour qu'on vous le renvoie."
+    answer:
+      "Pensez à vérifier votre dossier 'Spams' ou 'Courriers indésirables'. Si vous n'avez toujours rien reçu, vous pouvez télécharger le PDF depuis la page de succès ou nous contacter pour qu'on vous le renvoie.",
   },
   {
     question: "Le paiement est-il sécurisé ?",
-    answer: "Absolument. Nous utilisons Stripe, le leader mondial du paiement en ligne. Aucune donnée bancaire n'est stockée sur nos serveurs."
-  }
+    answer:
+      "Absolument. Nous utilisons Stripe, le leader mondial du paiement en ligne. Aucune donnée bancaire n'est stockée sur nos serveurs.",
+  },
 ];
 
 export const FAQ: React.FC = () => {
@@ -38,8 +44,14 @@ export const FAQ: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#0f0d1b] text-white py-12 px-4">
+      <Helmet>
+        <title>Foire Aux Questions • Lettre Petite Souris</title>
+        <meta
+          name="description"
+          content="Toutes les réponses sur le téléchargement instantané du Kit de la Petite Souris, l'impression du certificat et la sécurité des paiements."
+        />
+      </Helmet>
       <div className="max-w-2xl mx-auto space-y-8">
-        
         {/* Entête */}
         <div className="text-center space-y-3">
           <Link to="/" className="text-xs text-amber-300 hover:underline">
@@ -70,7 +82,7 @@ export const FAQ: React.FC = () => {
                     {item.question}
                   </span>
                   <span className="text-amber-400 text-xl font-bold">
-                    {isOpen ? '−' : '+'}
+                    {isOpen ? "−" : "+"}
                   </span>
                 </button>
 
@@ -93,7 +105,6 @@ export const FAQ: React.FC = () => {
             Créer mon Kit Magique (1,99 €) ✨
           </Link>
         </div>
-
       </div>
     </div>
   );

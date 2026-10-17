@@ -20,10 +20,13 @@ export function Home() {
     toothType: "Incisive",
     toothPosition: "Haut - Devant",
     giftType: "Pièce de 2 €",
-    customMessage: "Bravo pour ton courage ! Continue de bien te brosser les dents chaque soir.",
+    customMessage:
+      "Bravo pour ton courage ! Continue de bien te brosser les dents chaque soir.",
   });
 
-  const [activePreview, setActivePreview] = useState<"certificate" | "letter" | "envelope">("certificate");
+  const [activePreview, setActivePreview] = useState<
+    "certificate" | "letter" | "envelope"
+  >("certificate");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -38,7 +41,9 @@ export function Home() {
   const handleCheckout = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!customerEmail) {
-      setErrorMessage("Veuillez entrer une adresse e-mail valide pour recevoir vos documents.");
+      setErrorMessage(
+        "Veuillez entrer une adresse e-mail valide pour recevoir vos documents."
+      );
       return;
     }
 
@@ -62,24 +67,32 @@ export function Home() {
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage("Une erreur est survenue lors de la communication avec le Royaume. Réessayez !");
+      setErrorMessage(
+        "Une erreur est survenue lors de la communication avec le Royaume. Réessayez !"
+      );
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-950 via-indigo-950 to-slate-950 text-slate-100 flex flex-col justify-between font-sans">
+    <div className="min-h-screen bg-linear-to-b from-[#0b0a16] via-indigo-950 to-[#0b0a16] text-slate-100 flex flex-col justify-between font-sans">
       <Helmet>
-        <title>Le Kit Magique de la Petite Souris - Certificat, Lettre &amp; Enveloppe (1,99€)</title>
+        <title>Le Kit Magique de la Petite Souris • Certificat, Lettre & Enveloppe (1,99 €)</title>
+        <meta 
+          name="description" 
+          content="Immortalisez la perte de la dent de lait de votre enfant. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris et l'enveloppe magique pour 1,99 €." 
+        />
+        <link rel="canonical" href="https://lettrepetitesouris.fr/" />
+        <meta property="og:title" content="Le Kit Magique de la Petite Souris • 1,99 €" />
+        <meta property="og:description" content="Générez et téléchargez immédiatement votre certificat, lettre et enveloppe personnalisés sous l'oreiller !" />
+        <meta property="og:image" content="https://lettrepetitesouris.fr/favicon.png" />
       </Helmet>
 
       <Navbar />
 
       <main className="w-full max-w-7xl mx-auto px-4 py-8 md:py-12 grow flex flex-col justify-center">
-        
         {/* SECTION SPLIT-SCREEN HÉRO */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          
           {/* COLONNE GAUCHE : Texte & Réassurance */}
           <div className="lg:col-span-6 space-y-6 text-left">
             <div className="flex flex-wrap items-center gap-3">
@@ -92,7 +105,10 @@ export function Home() {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight">
-              Le Kit Magique de la <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-400 via-purple-300 to-rose-300">Petite Souris</span>
+              Le Kit Magique de la{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-300 via-amber-200 to-rose-300">
+                Petite Souris
+              </span>
             </h1>
 
             <p className="text-slate-300 text-sm md:text-base font-medium leading-relaxed">
@@ -105,21 +121,31 @@ export function Home() {
             <div className="grid grid-cols-2 gap-3 pt-2">
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">📜</span>
-                <span className="text-xs font-bold text-slate-200">Certificat Officiel</span>
+                <span className="text-xs font-bold text-slate-200">
+                  Certificat Officiel
+                </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">✉️</span>
-                <span className="text-xs font-bold text-slate-200">Lettre Personnalisée</span>
+                <span className="text-xs font-bold text-slate-200">
+                  Lettre Personnalisée
+                </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">✂️</span>
-                <span className="text-xs font-bold text-slate-200">Enveloppe à Plier</span>
+                <span className="text-xs font-bold text-slate-200">
+                  Enveloppe à Plier
+                </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-linear-to-r from-amber-400/20 to-pink-500/20 border border-amber-400/40 rounded-2xl shadow-xs">
                 <span className="text-lg">⚡</span>
                 <div>
-                  <span className="block text-[10px] text-amber-300 font-bold uppercase">Téléchargement Direct</span>
-                  <span className="text-xs font-extrabold text-white">Tout inclus à 1,99€</span>
+                  <span className="block text-[10px] text-amber-300 font-bold uppercase">
+                    Téléchargement Direct
+                  </span>
+                  <span className="text-xs font-extrabold text-white">
+                    Tout inclus à 1,99€
+                  </span>
                 </div>
               </div>
             </div>
@@ -133,18 +159,24 @@ export function Home() {
               </div>
             ) : (
               <div className="space-y-6">
-                
                 {/* FORMULAIRE & APERÇU RÉALISTE */}
-                <form onSubmit={handleCheckout} className="bg-slate-900/90 border-2 border-pink-500/30 p-6 rounded-3xl shadow-xl space-y-5 text-left text-white relative overflow-hidden">
-                  
-                  {/* Petit Ruban Promo en haut à droite */}
+                <form
+                  onSubmit={handleCheckout}
+                  className="bg-slate-900/90 border-2 border-pink-500/30 p-6 rounded-3xl shadow-xl space-y-5 text-left text-white relative overflow-hidden"
+                >
+                  {/* Ruban Promo */}
                   <div className="absolute -top-1 -right-1 bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl shadow-md">
                     Kit Complet • 1,99 €
                   </div>
 
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3 pt-2">
-                    <h2 className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center gap-1.5">
-                      <span>✨</span> Aperçu de votre Kit
+                    <h2 className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
+                      <img
+                        src="/favicon.png"
+                        alt="Logo"
+                        className="w-4 h-4 object-contain"
+                      />
+                      <span>Aperçu de votre Kit</span>
                     </h2>
                     <button
                       type="button"
@@ -194,9 +226,15 @@ export function Home() {
 
                   {/* APERÇU VISUEL RÉALISTE */}
                   <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl flex items-center justify-center overflow-hidden">
-                    {activePreview === "certificate" && <CertificatePreview data={formData} />}
-                    {activePreview === "letter" && <LetterPreview data={formData} />}
-                    {activePreview === "envelope" && <EnvelopePreview data={formData} />}
+                    {activePreview === "certificate" && (
+                      <CertificatePreview data={formData} />
+                    )}
+                    {activePreview === "letter" && (
+                      <LetterPreview data={formData} />
+                    )}
+                    {activePreview === "envelope" && (
+                      <EnvelopePreview data={formData} />
+                    )}
                   </div>
 
                   {/* Option Enveloppe checkbox */}
@@ -208,7 +246,10 @@ export function Home() {
                       onChange={(e) => setIncludeEnvelope(e.target.checked)}
                       className="rounded border-slate-700 bg-slate-950 text-pink-500 focus:ring-pink-400 w-4 h-4 cursor-pointer"
                     />
-                    <label htmlFor="envelopeOption" className="text-xs text-slate-300 cursor-pointer">
+                    <label
+                      htmlFor="envelopeOption"
+                      className="text-xs text-slate-300 cursor-pointer"
+                    >
                       Inclure la feuille d'enveloppe magique à découper et plier ✂️
                     </label>
                   </div>
@@ -249,14 +290,11 @@ export function Home() {
                       </>
                     )}
                   </button>
-
                 </form>
               </div>
             )}
           </div>
-
         </div>
-
       </main>
 
       <Footer />

@@ -31,9 +31,9 @@ export const EnvelopePreview: React.FC<EnvelopePreviewProps> = ({ data }) => {
             <span className="text-[7px] text-slate-500 block">Sous l'oreiller 🛏️</span>
           </div>
 
-          <div className="w-7 h-9 border border-dashed border-rose-400 bg-rose-100 rounded flex flex-col items-center justify-center text-[6px] text-rose-800 font-bold">
-            <span>🐭</span>
-            <span>1er CHOIX</span>
+          <div className="w-8 h-9 border border-dashed border-rose-400 bg-rose-100 rounded flex flex-col items-center justify-center text-[6px] text-rose-800 font-bold p-0.5">
+            <img src="/favicon.png" alt="Timbre" className="w-5 h-5 object-contain" />
+            <span className="text-[5px] scale-90">1ER CHOIX</span>
           </div>
         </div>
 

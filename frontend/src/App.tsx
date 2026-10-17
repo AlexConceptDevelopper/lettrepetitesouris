@@ -11,8 +11,8 @@ import { Cgv }  from './pages/legal/Cgv';
 import { Confidentialite } from './pages/legal/Confidentialite';
 import { Contact } from './pages/Contact';
 
-// import ArticleView from './pages/ArticleView';
-// import BlogIndex from './pages/blog/BlogIndex';
+import { ArticleView } from './pages/ArticleView';
+import { BlogIndex }  from './pages/blog/BlogIndex';
 
 export default function App() {
   return (
@@ -38,8 +38,8 @@ export default function App() {
           <Route path="/contact" element={<Contact />} /> 
 
           {/* Routes pour le blog (conseils sur les dents de lait, FAQ parents, etc.) */}
-          {/* <Route path="/blog" element={<BlogIndex />} /> */}
-          {/* <Route path="/blog/:slug" element={<ArticleView />} />  */}
+          <Route path="/blog" element={<BlogIndex />} /> 
+          <Route path="/blog/:slug" element={<ArticleView />} /> 
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

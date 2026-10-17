@@ -15,7 +15,9 @@ export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ data }) 
         {/* En-tête */}
         <div className="text-center space-y-0.5 border-b border-amber-200 pb-1.5">
           <div className="flex justify-center items-center gap-1.5 text-amber-700 text-[9px] font-sans tracking-widest font-black uppercase">
-            <span>✨</span> ROYAUME DES DENTS DE LAIT <span>✨</span>
+            <img src="/favicon.png" alt="Souris" className="w-3.5 h-3.5 object-contain" />
+            <span>ROYAUME DES DENTS DE LAIT</span>
+            <img src="/favicon.png" alt="Souris" className="w-3.5 h-3.5 object-contain" />
           </div>
           <h2 className="text-base sm:text-lg font-black text-rose-800 uppercase tracking-wide">
             Certificat Officiel
@@ -42,9 +44,9 @@ export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ data }) 
           </div>
 
           {/* Sceau */}
-          <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-300 via-yellow-400 to-amber-500 border-2 border-amber-200 flex flex-col items-center justify-center text-amber-950 shadow-xs shrink-0">
-            <span className="text-xs">🐭</span>
-            <span className="text-[4px] font-black uppercase tracking-tighter">OFFICIEL</span>
+          <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-300 via-yellow-400 to-amber-500 border-2 border-amber-200 flex flex-col items-center justify-center text-amber-950 shadow-xs shrink-0 overflow-hidden p-0.5">
+            <img src="/favicon.png" alt="Sceau" className="w-5 h-5 object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
+            <span className="text-[4px] font-black uppercase tracking-tighter scale-90">OFFICIEL</span>
           </div>
         </div>
 
