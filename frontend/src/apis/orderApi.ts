@@ -3,7 +3,7 @@ import type { CreateOrderRequest } from '../types/document';
 import type { StripeResponse } from '../types/stripe';
 
 /**
- * Crée une session de commande pour le pack de documents.
+ * Crée une session de commande pour le kit de la Petite Souris.
  */
 export async function checkoutOrder(request: CreateOrderRequest): Promise<StripeResponse> {
   try {
@@ -14,6 +14,9 @@ export async function checkoutOrder(request: CreateOrderRequest): Promise<Stripe
   }
 }
 
+/**
+ * Génère l'URL de téléchargement direct du PDF sécurisé par sessionId.
+ */
 export function getPdfDownloadUrl(sessionId: string): string {
   return getApiUrl(`/orders/download-pdf?sessionId=${sessionId}`);
 }

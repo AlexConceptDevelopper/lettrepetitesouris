@@ -1,122 +1,94 @@
-import React, { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
-import { getApiUrl } from '../apis/client';
+import { useState } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
+import { getPdfDownloadUrl } from "../apis/orderApi";
+import { Helmet } from "react-helmet-async";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
 
-export const Succes: React.FC = () => {
+export function Succes() {
   const [searchParams] = useSearchParams();
-  const sessionId = searchParams.get('session_id');
+  const navigate = useNavigate();
+  const sessionId = searchParams.get("session_id");
 
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [downloading, setDownloading] = useState<boolean>(false);
+  const [hasDownloaded, setHasDownloaded] = useState(false);
 
-  useEffect(() => {
+  const handleDownload = () => {
     if (!sessionId) {
-      setError('Identifiant de session manquant.');
-      setLoading(false);
+      alert("Identifiant de session manquant.");
       return;
     }
 
-    fetch(getApiUrl(`/api/orders/success?session_id=${sessionId}`), {
-      method: 'POST',
-    })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Paiement non validé ou session introuvable.');
-        }
-        return res.text();
-      })
-      .then(() => {
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err);
-        setLoading(false);
-      });
-  }, [sessionId]);
-
-  const handleDownloadPdf = async () => {
-    if (!sessionId) return;
-    setDownloading(true);
-
-    try {
-      const response = await fetch(getApiUrl(`/api/orders/download-pdf?session_id=${sessionId}`));
-      if (!response.ok) {
-        throw new Error('Impossible de récupérer le fichier PDF.');
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `Kit_Petite_Souris.pdf`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-    } catch (err) {
-      alert('Erreur lors du téléchargement. Vérifiez vos e-mails, le kit y a également été envoyé !');
-    } finally {
-      setDownloading(false);
-    }
+    // Lance le téléchargement sécurisé dans un nouvel onglet
+    window.open(getPdfDownloadUrl(sessionId), "_blank");
+    setHasDownloaded(true);
   };
 
   return (
-    <div className="min-h-screen bg-[#0f0d1b] text-white flex flex-col items-center justify-center p-4">
-      <div className="max-w-md w-full bg-[#17142b] border border-amber-400/30 rounded-2xl p-8 text-center shadow-xl backdrop-blur-md">
-        
-        {loading ? (
-          <div className="py-10 space-y-4">
-            <div className="w-12 h-12 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
-            <p className="text-amber-200 text-lg font-medium">Validation de votre commande magique...</p>
-          </div>
-        ) : error ? (
-          <div className="space-y-4">
-            <div className="text-4xl">⚠️</div>
-            <h1 className="text-2xl font-bold text-red-400">Une erreur est survenue</h1>
-            <p className="text-gray-300 text-sm">{error}</p>
-            <Link
-              to="/"
-              className="inline-block mt-4 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl transition"
-            >
-              Retour à l'accueil
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-6">
-            <div className="text-5xl animate-bounce">✨ 🐭 💌</div>
-            <h1 className="text-3xl font-extrabold text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-pink-400">
+    <div className="min-h-screen bg-linear-to-b from-[#0b0a16] via-indigo-950 to-[#0b0a16] text-slate-100 flex flex-col justify-between font-sans">
+      <Helmet>
+        <title>
+          Commande Validée • Téléchargez votre Kit de la Petite Souris !
+        </title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
+      <Navbar />
+
+      <main className="w-full max-w-xl mx-auto px-4 py-16 grow flex flex-col items-center justify-center relative">
+        {/* Effet lumineux de fond */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="w-full bg-slate-900/90 border-2 border-pink-500/30 p-8 rounded-3xl shadow-2xl backdrop-blur-xl text-center relative z-10 space-y-6">
+          <div className="text-6xl animate-bounce">✨ 🐭 🎁</div>
+
+          <div className="space-y-3">
+            <span className="inline-block px-4 py-1.5 bg-pink-500/20 border border-pink-500/40 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
+              Paiement Validé avec Succès !
+            </span>
+            <h1 className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-pink-300 to-purple-300">
               Merci pour votre commande !
             </h1>
-            
             <p className="text-slate-300 text-sm leading-relaxed">
-              La Petite Souris prépare soigneusement votre kit. Un e-mail contenant le coffret magique en pièce jointe vient de vous être envoyé.
+              La Petite Souris est passée par ici ! Vos documents magiques
+              (certificat officiel, lettre personnalisée et enveloppe) sont
+              prêts.
             </p>
 
-            <div className="bg-amber-400/10 border border-amber-400/20 rounded-xl p-4 text-xs text-amber-200 text-left space-y-1">
-              <p>💡 <strong>Conseil :</strong> Pensez à vérifier vos courriers indésirables (spams) si vous ne trouvez pas l'e-mail.</p>
-            </div>
-
-            <div className="pt-2 space-y-3">
-              <button
-                onClick={handleDownloadPdf}
-                disabled={downloading}
-                className="w-full py-3.5 px-6 bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-90 text-white font-bold rounded-xl shadow-lg transition transform active:scale-95 disabled:opacity-50 cursor-pointer"
-              >
-                {downloading ? 'Chargement du PDF...' : 'Télécharger mon Kit PDF Directement 📄'}
-              </button>
-
-              <Link
-                to="/"
-                className="block text-xs text-slate-400 hover:text-white transition pt-2"
-              >
-                ← Retourner sur le site
-              </Link>
-            </div>
+            {/* Notification e-mail */}
+            <p className="text-xs text-amber-300/90 font-medium bg-amber-500/10 border border-amber-400/20 py-2.5 px-3 rounded-xl text-left">
+              📧 Une copie de votre kit vient également de vous être envoyée par
+              e-mail afin que vous puissiez le retrouver facilement.
+            </p>
           </div>
-        )}
 
-      </div>
+          {hasDownloaded && (
+            <div className="bg-emerald-950/60 border border-emerald-500/40 p-3 rounded-2xl text-emerald-200 text-xs font-medium">
+              ✅ Téléchargement lancé avec succès ! Vous pouvez le relancer ou
+              retourner à l'accueil à tout moment.
+            </div>
+          )}
+
+          <div className="pt-2 flex flex-col gap-3">
+            <button
+              onClick={handleDownload}
+              style={{ cursor: "pointer" }}
+              className="w-full py-4 bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-xl uppercase tracking-wider text-xs border border-amber-300/40 transition-transform transform hover:scale-[1.02]"
+            >
+              📥 Télécharger mon Kit Magique (PDF)
+            </button>
+
+            <button
+              onClick={() => navigate("/")}
+              style={{ cursor: "pointer" }}
+              className="w-full py-3 bg-slate-950 hover:bg-slate-900 text-slate-300 font-bold rounded-xl border border-slate-800 text-xs tracking-wider transition-colors"
+            >
+              🏠 Retourner à l'accueil
+            </button>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
-};
+}
