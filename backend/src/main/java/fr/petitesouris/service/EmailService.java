@@ -18,13 +18,17 @@ public class EmailService {
     @Value("${app.mail.from}")
     private String fromEmail;
 
+    @Value("${app.mail.from-name:La Petite Souris}")
+    private String fromName;
+
     @Value("${brevo.api.key:}")
     private String brevoApiKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
-     * Envoie l'e-mail avec le certificat de la Petite Souris en pièce jointe via l'API HTTP de Brevo.
+     * Envoie l'e-mail avec le certificat de la Petite Souris en pièce jointe via
+     * l'API HTTP de Brevo.
      */
     public void sendPermitEmail(String toEmail, String childName, byte[] pdfBytes) {
         try {
@@ -69,7 +73,7 @@ public class EmailService {
             String attachmentName = "Certificat_Petite_Souris_" + childName + ".pdf";
 
             Map<String, Object> emailPayload = Map.of(
-                    "sender", Map.of("email", fromEmail, "name", "La Petite Souris"),
+                    "sender", Map.of("email", fromEmail, "name", fromName),
                     "to", List.of(Map.of("email", toEmail)),
                     "subject", subject,
                     "htmlContent", htmlContent,

@@ -23,7 +23,9 @@ public class OrderCleanupService {
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void purgeOldDocumentData() {
-        LocalDateTime limitDate = LocalDateTime.now().minusHours(24);
+        // Suppression des données enfants après 48 heures pour laisser le temps au client
+        // de re-télécharger son PDF en cas de besoin, tout en respectant l'engagement RGPD.
+        LocalDateTime limitDate = LocalDateTime.now().minusHours(48);
         
         List<ToothOrder> ordersToClean = orderRepository.findByDocumentDataIsNotNullAndCreatedAtBefore(limitDate);
         
@@ -33,7 +35,7 @@ public class OrderCleanupService {
         }
         
         if (!ordersToClean.isEmpty()) {
-            System.out.println("Nettoyage RGPD : " + ordersToClean.size() + " document(s) de la Petite Souris purgé(s).");
+            System.out.println("Nettoyage RGPD (48h) : " + ordersToClean.size() + " document(s) de la Petite Souris purgé(s).");
         }
     }
 }
