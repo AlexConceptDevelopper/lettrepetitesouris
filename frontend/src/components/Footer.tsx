@@ -59,10 +59,24 @@ export const Footer: React.FC = () => {
 
       </div>
 
-      {/* COPYRIGHT & SIREN */}
-      <div className="max-w-7xl mx-auto border-t border-slate-900 pt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-500">
+      {/* COPYRIGHT, SIREN & LIEN D'AUTORITÉ CUBTAIK */}
+      <div className="max-w-7xl mx-auto border-t border-slate-900 pt-4 flex flex-col sm:flex-row items-center justify-between text-[10px] text-slate-500 gap-2">
         <p>© 2026 lettrepetitesouris.fr • Tous droits réservés.</p>
-        <p className="mt-2 sm:mt-0">Entreprise enregistrée en France (SIREN 109 752 832)</p>
+        
+        {/* Lien de marque / Studio central */}
+        <p>
+          Un service édité par{' '}
+          <a 
+            href="https://www.cubtaik.fr" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-slate-400 hover:text-amber-300 font-semibold underline transition"
+          >
+            CubTaik Studio
+          </a>
+        </p>
+
+        <p>Entreprise enregistrée en France (SIREN 109 752 832)</p>
       </div>
     </footer>
   );
