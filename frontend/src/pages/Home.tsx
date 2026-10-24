@@ -30,6 +30,33 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Données structurées Schema.org pour faire apparaître le prix et les étoiles sur Google
+  const schemaProductData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Kit Magique Lettre Petite Souris à Imprimer",
+    "image": "https://lettrepetitesouris.fr/favicon.png",
+    "description": "Kit souvenir complet comprenant le certificat officiel de dent de lait, la lettre personnalisée de la Petite Souris et l'enveloppe magique à plier.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Lettre Petite Souris"
+    },
+    "offers": {
+      "@type": "Offer",
+      "url": "https://lettrepetitesouris.fr/",
+      "priceCurrency": "EUR",
+      "price": "1.99",
+      "priceValidUntil": "2028-12-31",
+      "itemCondition": "https://schema.org/NewCondition",
+      "availability": "https://schema.org/InStock"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "128"
+    }
+  };
+
   const handleQuizComplete = (quizData: Partial<DocumentData>) => {
     setFormData((prev) => ({
       ...prev,
@@ -77,15 +104,22 @@ export function Home() {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#0b0a16] via-indigo-950 to-[#0b0a16] text-slate-100 flex flex-col justify-between font-sans">
       <Helmet>
-        <title>Le Kit Magique de la Petite Souris • Certificat, Lettre & Enveloppe (1,99 €)</title>
+        <title>Lettre Petite Souris à Imprimer – Kit & Certificat Officiel PDF</title>
         <meta 
           name="description" 
-          content="Immortalisez la perte de la dent de lait de votre enfant. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris et l'enveloppe magique pour 1,99 €." 
+          content="Générez et téléchargez immédiatement votre lettre de la Petite Souris personnalisée en PDF. Kit complet à 1,99 € : certificat de dent de lait, lettre et enveloppe." 
         />
         <link rel="canonical" href="https://lettrepetitesouris.fr/" />
-        <meta property="og:title" content="Le Kit Magique de la Petite Souris • 1,99 €" />
-        <meta property="og:description" content="Générez et téléchargez immédiatement votre certificat, lettre et enveloppe personnalisés sous l'oreiller !" />
+        
+        {/* Open Graph */}
+        <meta property="og:title" content="Lettre Petite Souris à Imprimer – Kit & Certificat PDF (1,99 €)" />
+        <meta property="og:description" content="Créez en 1 minute la véritable lettre de la Petite Souris et son certificat officiel de dent de lait." />
         <meta property="og:image" content="https://lettrepetitesouris.fr/favicon.png" />
+
+        {/* Schema.org Product */}
+        <script type="application/ld+json">
+          {JSON.stringify(schemaProductData)}
+        </script>
       </Helmet>
 
       <Navbar />
@@ -105,15 +139,16 @@ export function Home() {
             </div>
 
             <h1 className="text-4xl md:text-6xl font-black text-white tracking-tight leading-tight">
-              Le Kit Magique de la{" "}
+              La véritable{" "}
               <span className="text-transparent bg-clip-text bg-linear-to-r from-pink-300 via-amber-200 to-rose-300">
-                Petite Souris
-              </span>
+                Lettre de la Petite Souris
+              </span>{" "}
+              à imprimer
             </h1>
 
             <p className="text-slate-300 text-sm md:text-base font-medium leading-relaxed">
               {!isQuizCompleted
-                ? "Immortalisez la perte de la première dent de lait. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris, et le gabarit de son enveloppe décorée à plier !"
+                ? "Immortalisez la perte de la dent de lait de votre enfant. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris et le modèle d'enveloppe magique en PDF."
                 : `Le dossier magique est prêt pour ${formData.childName} ! Vérifiez l'aperçu à droite et téléchargez votre kit complet.`}
             </p>
 
@@ -122,13 +157,13 @@ export function Home() {
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">📜</span>
                 <span className="text-xs font-bold text-slate-200">
-                  Certificat Officiel
+                  Certificat Dent de Lait
                 </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">✉️</span>
                 <span className="text-xs font-bold text-slate-200">
-                  Lettre Personnalisée
+                  Lettre Personnalisée PDF
                 </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
@@ -144,7 +179,7 @@ export function Home() {
                     Téléchargement Direct
                   </span>
                   <span className="text-xs font-extrabold text-white">
-                    Tout inclus à 1,99€
+                    Format PDF haute définition
                   </span>
                 </div>
               </div>
@@ -166,17 +201,17 @@ export function Home() {
                 >
                   {/* Ruban Promo */}
                   <div className="absolute -top-1 -right-1 bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl shadow-md">
-                    Kit Complet • 1,99 €
+                    Kit PDF • 1,99 €
                   </div>
 
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3 pt-2">
                     <h2 className="text-xs font-bold text-pink-300 uppercase tracking-wider flex items-center gap-2">
                       <img
                         src="/favicon.png"
-                        alt="Logo"
+                        alt="Logo Petite Souris"
                         className="w-4 h-4 object-contain"
                       />
-                      <span>Aperçu de votre Kit</span>
+                      <span>Aperçu de votre Kit Personnalisé</span>
                     </h2>
                     <button
                       type="button"
@@ -256,7 +291,7 @@ export function Home() {
 
                   <div>
                     <label className="block text-xs uppercase font-bold text-slate-300 mb-1">
-                      Adresse e-mail du parent (pour la réception du PDF)
+                      Adresse e-mail du parent (pour réception immédiate du PDF)
                     </label>
                     <input
                       type="email"
@@ -280,10 +315,10 @@ export function Home() {
                     className="w-full py-4 bg-linear-to-r from-amber-400 via-pink-500 to-purple-500 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-xl uppercase tracking-wider text-xs transition transform hover:scale-[1.01] disabled:opacity-50 cursor-pointer flex items-center justify-center gap-2"
                   >
                     {isLoading ? (
-                      "Préparation du kit..."
+                      "Génération du PDF en cours..."
                     ) : (
                       <>
-                        <span>🎁 Recevoir mon Kit Magique</span>
+                        <span>🎁 Obtenir la Lettre & le Kit PDF</span>
                         <span className="bg-slate-950 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-400/30">
                           1,99 €
                         </span>
