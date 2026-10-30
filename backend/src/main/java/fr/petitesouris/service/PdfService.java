@@ -37,8 +37,8 @@ public class PdfService {
         // Charger les ressources en Base64
         String faviconBase64 = loadImageAsBase64("static/favicon.png");
         String enveloppeFondBase64 = loadImageAsBase64("static/enveloppe-magique-fond.jpg");
-        String lettreFondBase64 = loadImageAsBase64("images/lettre-petite-souris-fond.jpg");
-        String certificatFondBase64 = loadImageAsBase64("images/certificat-petite-souris-fond.jpg");
+        String lettreFondBase64 = loadImageAsBase64("static/lettre-petite-souris-fond.jpg");
+        String certificatFondBase64 = loadImageAsBase64("static/certificat-petite-souris.jpg");
 
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
