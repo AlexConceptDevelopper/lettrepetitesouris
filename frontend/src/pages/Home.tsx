@@ -12,7 +12,9 @@ import { Helmet } from "react-helmet-async";
 export function Home() {
   const [customerEmail, setCustomerEmail] = useState("");
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
-  const [includeEnvelope, setIncludeEnvelope] = useState(true);
+  
+  // Type de formule : 'full' (Kit complet à 1.99€) ou 'envelope_only' (0.99€)
+  const [selectedOffer, setSelectedOffer] = useState<"full" | "envelope_only">("full");
 
   const [formData, setFormData] = useState<DocumentData>({
     childName: "Léna",
@@ -30,7 +32,10 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Données structurées Schema.org optimisées pour produit numérique (sans erreurs Search Console)
+  // Calcul du prix dynamique
+  const currentPrice = selectedOffer === "full" ? "1.99" : "0.99";
+
+  // Données structurées Schema.org optimisées pour le SEO
   const schemaProductData = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -41,15 +46,28 @@ export function Home() {
       "@type": "Brand",
       "name": "Lettre Petite Souris"
     },
-    "offers": {
-      "@type": "Offer",
-      "url": "https://lettrepetitesouris.fr/",
-      "priceCurrency": "EUR",
-      "price": "1.99",
-      "availability": "https://schema.org/InStock",
-      "itemCondition": "https://schema.org/NewCondition",
-      "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeDirectDownload"
-    },
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Kit Complet (Certificat + Lettre + Enveloppe)",
+        "url": "https://lettrepetitesouris.fr/",
+        "priceCurrency": "EUR",
+        "price": "1.99",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeDirectDownload"
+      },
+      {
+        "@type": "Offer",
+        "name": "Enveloppe Magique Seule",
+        "url": "https://lettrepetitesouris.fr/",
+        "priceCurrency": "EUR",
+        "price": "0.99",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeDirectDownload"
+      }
+    ],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
@@ -80,6 +98,8 @@ export function Home() {
     try {
       const orderRequest: CreateOrderRequest = {
         customerEmail,
+        includeEnvelope: true, // Toujours inclure ou adapter selon backend
+        offerType: selectedOffer, // Transmet si c'est 'full' ou 'envelope_only'
         documentData: {
           ...formData,
         },
@@ -104,15 +124,15 @@ export function Home() {
   return (
     <div className="min-h-screen bg-linear-to-b from-[#0b0a16] via-indigo-950 to-[#0b0a16] text-slate-100 flex flex-col justify-between font-sans">
       <Helmet>
-        <title>Lettre Petite Souris à Imprimer – Kit & Certificat Officiel PDF</title>
+        <title>Lettre Petite Souris à Imprimer – Kit & Certificat Officiel PDF (dès 0,99 €)</title>
         <meta 
           name="description" 
-          content="Générez et téléchargez immédiatement votre lettre de la Petite Souris personnalisée en PDF. Kit complet à 1,99 € : certificat de dent de lait, lettre et enveloppe." 
+          content="Générez et téléchargez immédiatement votre lettre de la Petite Souris personnalisée en PDF. Enveloppe seule à 0,99 € ou Kit Complet Souvenir à 1,99 €." 
         />
         <link rel="canonical" href="https://lettrepetitesouris.fr/" />
         
         {/* Open Graph */}
-        <meta property="og:title" content="Lettre Petite Souris à Imprimer – Kit & Certificat PDF (1,99 €)" />
+        <meta property="og:title" content="Lettre Petite Souris à Imprimer – Kit PDF (dès 0,99 €)" />
         <meta property="og:description" content="Créez en 1 minute la véritable lettre de la Petite Souris et son certificat officiel de dent de lait." />
         <meta property="og:image" content="https://lettrepetitesouris.fr/favicon.png" />
 
@@ -127,14 +147,15 @@ export function Home() {
       <main className="w-full max-w-7xl mx-auto px-4 py-8 md:py-12 grow flex flex-col justify-center">
         {/* SECTION SPLIT-SCREEN HÉRO */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* COLONNE GAUCHE : Texte & Réassurance */}
+          
+          {/* COLONNE GAUCHE : Titre, Explication & Offres Claires Directes */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="inline-block px-4 py-1.5 bg-slate-900 border border-pink-500/30 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
-                🌸 Kit Complet &amp; Enveloppe Magique 🌸
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="inline-block px-3.5 py-1 bg-slate-900 border border-pink-500/30 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
+                🌸 Téléchargement PDF Immédiat 🌸
               </span>
-              <span className="inline-block px-3 py-1 bg-amber-400 text-slate-950 font-black rounded-full text-xs shadow-md animate-pulse">
-                Seulement 1,99 € 💥
+              <span className="inline-block px-3 py-1 bg-amber-400 text-slate-950 font-black rounded-full text-xs shadow-md">
+                Dès 0,99 € ✨
               </span>
             </div>
 
@@ -148,45 +169,71 @@ export function Home() {
 
             <p className="text-slate-300 text-sm md:text-base font-medium leading-relaxed">
               {!isQuizCompleted
-                ? "Immortalisez la perte de la dent de lait de votre enfant. Obtenez instantanément le certificat officiel, la lettre personnalisée de la Petite Souris et le modèle d'enveloppe magique en PDF."
-                : `Le dossier magique est prêt pour ${formData.childName} ! Vérifiez l'aperçu à droite et téléchargez votre kit complet.`}
+                ? "Immortalisez la perte de la dent de lait de votre enfant. Personnalisez votre kit magique prêt à imprimer en moins d'une minute !"
+                : `Le dossier magique est prêt pour ${formData.childName} ! Choisissez votre formule ci-dessous et téléchargez votre PDF.`}
             </p>
 
+            {/* SELECTION RAPIDE DE L'OFFRE (VISIBLE IMMÉDIATEMENT SANS VALIDER LE QUIZ) */}
+            <div className="p-4 bg-slate-900/90 border border-amber-400/30 rounded-3xl space-y-3 shadow-lg">
+              <div className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center justify-between">
+                <span>✨ Nos 2 Formules Magiques</span>
+                <span className="text-[10px] text-slate-400 font-normal">Réception instantanée par e-mail</span>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {/* Formule 1 : Kit Complet */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedOffer("full")}
+                  className={`p-3 rounded-2xl border text-left transition-all cursor-pointer relative ${
+                    selectedOffer === "full"
+                      ? "bg-linear-to-br from-pink-950/80 to-slate-900 border-pink-400 shadow-md ring-2 ring-pink-500/40"
+                      : "bg-slate-950/60 border-slate-800 opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  <div className="absolute -top-2 -right-1 bg-amber-400 text-slate-950 text-[9px] font-black uppercase px-2 py-0.5 rounded-full shadow-xs">
+                    Recommandé
+                  </div>
+                  <div className="text-xs font-black text-white">Kit Souvenir Complet</div>
+                  <div className="text-[10px] text-slate-300">Certificat + Lettre + Enveloppe</div>
+                  <div className="text-sm font-black text-pink-300 mt-1">1,99 €</div>
+                </button>
+
+                {/* Formule 2 : Enveloppe Seule */}
+                <button
+                  type="button"
+                  onClick={() => setSelectedOffer("envelope_only")}
+                  className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                    selectedOffer === "envelope_only"
+                      ? "bg-linear-to-br from-purple-950/80 to-slate-900 border-purple-400 shadow-md ring-2 ring-purple-500/40"
+                      : "bg-slate-950/60 border-slate-800 opacity-75 hover:opacity-100"
+                  }`}
+                >
+                  <div className="text-xs font-black text-white">Enveloppe Magique</div>
+                  <div className="text-[10px] text-slate-300">Gabarit A4 à plier seul</div>
+                  <div className="text-sm font-black text-amber-300 mt-1">0,99 €</div>
+                </button>
+              </div>
+            </div>
+
             {/* Badges de réassurance */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-2 gap-3 pt-1">
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">📜</span>
                 <span className="text-xs font-bold text-slate-200">
-                  Certificat Dent de Lait
+                  Certificat Officiel
                 </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">✉️</span>
                 <span className="text-xs font-bold text-slate-200">
-                  Lettre Personnalisée PDF
+                  Lettre Sur-Mesure
                 </span>
-              </div>
-              <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
-                <span className="text-lg">✂️</span>
-                <span className="text-xs font-bold text-slate-200">
-                  Enveloppe à Plier
-                </span>
-              </div>
-              <div className="flex items-center gap-2.5 p-3 bg-linear-to-r from-amber-400/20 to-pink-500/20 border border-amber-400/40 rounded-2xl shadow-xs">
-                <span className="text-lg">⚡</span>
-                <div>
-                  <span className="block text-[10px] text-amber-300 font-bold uppercase">
-                    Téléchargement Direct
-                  </span>
-                  <span className="text-xs font-extrabold text-white">
-                    Format PDF haute définition
-                  </span>
-                </div>
               </div>
             </div>
           </div>
 
-          {/* COLONNE DROITE : Quiz / Formulaire & Vrais Aperçus */}
+          {/* COLONNE DROITE : Quiz Akinator puis Formulaire & Aperçu */}
           <div className="lg:col-span-6 w-full">
             {!isQuizCompleted ? (
               <div className="w-full">
@@ -199,9 +246,9 @@ export function Home() {
                   onSubmit={handleCheckout}
                   className="bg-slate-900/90 border-2 border-pink-500/30 p-6 rounded-3xl shadow-xl space-y-5 text-left text-white relative overflow-hidden"
                 >
-                  {/* Ruban Promo */}
+                  {/* Ruban Prix Dynamique */}
                   <div className="absolute -top-1 -right-1 bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl shadow-md">
-                    Kit PDF • 1,99 €
+                    {selectedOffer === "full" ? "Kit PDF • 1,99 €" : "Enveloppe seul • 0,99 €"}
                   </div>
 
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3 pt-2">
@@ -211,7 +258,7 @@ export function Home() {
                         alt="Logo Petite Souris"
                         className="w-4 h-4 object-contain"
                       />
-                      <span>Aperçu de votre Kit Personnalisé</span>
+                      <span>Aperçu de votre Commande</span>
                     </h2>
                     <button
                       type="button"
@@ -222,7 +269,7 @@ export function Home() {
                     </button>
                   </div>
 
-                  {/* Sélecteur d'onglets d'aperçu */}
+                  {/* Onglets d'Aperçu */}
                   <div className="grid grid-cols-3 gap-1.5">
                     <button
                       type="button"
@@ -259,7 +306,7 @@ export function Home() {
                     </button>
                   </div>
 
-                  {/* APERÇU VISUEL RÉALISTE */}
+                  {/* ZONE D'APERÇU VISUEL */}
                   <div className="p-4 bg-slate-950/70 border border-slate-800 rounded-2xl flex items-center justify-center overflow-hidden">
                     {activePreview === "certificate" && (
                       <CertificatePreview data={formData} />
@@ -272,21 +319,19 @@ export function Home() {
                     )}
                   </div>
 
-                  {/* Option Enveloppe checkbox */}
-                  <div className="flex items-center gap-2 pt-1">
-                    <input
-                      type="checkbox"
-                      id="envelopeOption"
-                      checked={includeEnvelope}
-                      onChange={(e) => setIncludeEnvelope(e.target.checked)}
-                      className="rounded border-slate-700 bg-slate-950 text-pink-500 focus:ring-pink-400 w-4 h-4 cursor-pointer"
-                    />
-                    <label
-                      htmlFor="envelopeOption"
-                      className="text-xs text-slate-300 cursor-pointer"
+                  {/* Switcher rapide de formule sous l'aperçu */}
+                  <div className="bg-slate-950/60 border border-slate-800 p-3 rounded-2xl flex items-center justify-between">
+                    <span className="text-xs text-slate-300 font-medium">
+                      Formule sélectionnée :
+                    </span>
+                    <select
+                      value={selectedOffer}
+                      onChange={(e) => setSelectedOffer(e.target.value as "full" | "envelope_only")}
+                      className="bg-slate-900 text-amber-300 text-xs font-bold border border-amber-400/40 rounded-xl px-3 py-1.5 outline-none cursor-pointer"
                     >
-                      Inclure la feuille d'enveloppe magique à découper et plier ✂️
-                    </label>
+                      <option value="full">Kit Complet Souvenir (1,99 €)</option>
+                      <option value="envelope_only">Enveloppe seule (0,99 €)</option>
+                    </select>
                   </div>
 
                   <div>
@@ -318,9 +363,9 @@ export function Home() {
                       "Génération du PDF en cours..."
                     ) : (
                       <>
-                        <span>🎁 Obtenir la Lettre & le Kit PDF</span>
+                        <span>🎁 Télécharger mon Kit PDF</span>
                         <span className="bg-slate-950 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-400/30">
-                          1,99 €
+                          {currentPrice} €
                         </span>
                       </>
                     )}

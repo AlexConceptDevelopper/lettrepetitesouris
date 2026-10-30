@@ -31,6 +31,7 @@ export const AkinatorQuiz: React.FC<AkinatorQuizProps> = ({ onComplete }) => {
     onComplete({
       childName,
       childAge,
+      childGender: gender,
       toothType,
       toothPosition,
       giftType,

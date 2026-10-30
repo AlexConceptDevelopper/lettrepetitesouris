@@ -27,12 +27,26 @@ public class EmailService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
-     * Envoie l'e-mail avec le certificat de la Petite Souris en pièce jointe via
-     * l'API HTTP de Brevo.
+     * Envoie l'e-mail avec le PDF de la Petite Souris (Kit complet ou Enveloppe seule) en pièce jointe via l'API HTTP de Brevo.
      */
-    public void sendPermitEmail(String toEmail, String childName, byte[] pdfBytes) {
+    public void sendPermitEmail(String toEmail, String childName, byte[] pdfBytes, boolean isFullKit) {
         try {
-            String subject = "🦷✨ Le certificat officiel de la Petite Souris pour " + childName + " est arrivé !";
+            // Sujet et textes adaptés selon la formule
+            String subject = isFullKit 
+                ? "🦷✨ Le kit magique de la Petite Souris pour " + childName + " est arrivé !"
+                : "✉️✨ L'enveloppe magique de la Petite Souris pour " + childName + " est prête !";
+
+            String descriptionText = isFullKit
+                ? "La Petite Souris est passée par ici ! Elle a déposé sa récompense et préparé le kit magique (certificat, lettre et enveloppe) pour <strong>" + childName + "</strong>."
+                : "La Petite Souris a préparé ton enveloppe magique personnalisée pour <strong>" + childName + "</strong>.";
+
+            String instructionText = isFullKit
+                ? "Tu trouveras ton kit magique complet au format PDF en pièce jointe de cet e-mail. Tu peux l'imprimer pour le glisser sous l'oreiller."
+                : "Tu trouveras ton enveloppe magique au format PDF en pièce jointe de cet e-mail. Il te suffit de l'imprimer, de la découper et de la plier !";
+
+            String attachmentName = isFullKit 
+                ? "Kit_Complet_Petite_Souris_" + childName + ".pdf"
+                : "Enveloppe_Magique_" + childName + ".pdf";
 
             String htmlContent = """
                     <!DOCTYPE html>
@@ -45,8 +59,8 @@ public class EmailService {
                             </div>
 
                             <h1 style="color: #fbbf24; margin-top: 0;">Chouette, une dent perdue ! 🦷✨</h1>
-                            <p style="font-size: 16px; color: #e2e8f0; text-align: left;">La Petite Souris est passée par ici ! Elle a déposé sa récompense et préparé le certificat officiel pour <strong>%s</strong>.</p>
-                            <p style="font-size: 14px; color: #cbd5e1; text-align: left;">Tu trouveras le certificat magique au format PDF en pièce jointe de cet e-mail. Tu peux l'imprimer pour le glisser sous l'oreiller ou en souvenir.</p>
+                            <p style="font-size: 16px; color: #e2e8f0; text-align: left;">%s</p>
+                            <p style="font-size: 14px; color: #cbd5e1; text-align: left;">%s</p>
 
                             <div style="text-align: center; margin: 30px 0;">
                                 <span style="background-color: rgba(251, 191, 36, 0.15); color: #fde047; padding: 10px 20px; border-radius: 9999px; font-weight: bold; border: 1px solid rgba(251, 191, 36, 0.3);">
@@ -61,7 +75,7 @@ public class EmailService {
                     </body>
                     </html>
                     """
-                    .formatted(frontendUrl, childName, frontendUrl);
+                    .formatted(frontendUrl, descriptionText, instructionText, frontendUrl);
 
             String url = "https://api.brevo.com/v3/smtp/email";
 
@@ -70,7 +84,6 @@ public class EmailService {
             headers.set("api-key", brevoApiKey);
 
             String base64Pdf = Base64.getEncoder().encodeToString(pdfBytes);
-            String attachmentName = "Certificat_Petite_Souris_" + childName + ".pdf";
 
             Map<String, Object> emailPayload = Map.of(
                     "sender", Map.of("email", fromEmail, "name", fromName),
@@ -81,7 +94,7 @@ public class EmailService {
                             "content", base64Pdf,
                             "name", attachmentName)));
 
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(emailPayload, headers);
+            HttpEntity<Object> entity = new HttpEntity<>(emailPayload, headers);
             restTemplate.postForEntity(url, entity, String.class);
 
         } catch (Exception e) {

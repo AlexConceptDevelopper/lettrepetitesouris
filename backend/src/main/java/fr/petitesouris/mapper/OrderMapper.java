@@ -17,7 +17,10 @@ public class OrderMapper {
 
         ToothOrder order = new ToothOrder();
         order.setCustomerEmail(request.getCustomerEmail());
-        order.setAmount(1.99);
+        
+        // Détermination dynamique du montant en fonction de l'offre
+        boolean isFull = "full".equalsIgnoreCase(request.getOfferType());
+        order.setAmount(isFull ? 1.99 : 0.99);
         order.setStatus("PENDING");
 
         if (request.getDocumentData() != null) {

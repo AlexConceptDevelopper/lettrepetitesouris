@@ -47,6 +47,12 @@ public class OrderService {
         ToothOrder order = orderMapper.toEntity(request);
         ToothOrder savedOrder = orderRepository.save(order);
 
+        // Détermination du montant en centimes pour Stripe (199 ou 99)
+        long unitAmount = (savedOrder.getAmount() == 1.99) ? 199L : 99L;
+        String productName = (savedOrder.getAmount() == 1.99)
+                ? "Kit Souvenir Complet de la Petite Souris"
+                : "Enveloppe Magique de la Petite Souris";
+
         try {
             SessionCreateParams params = SessionCreateParams.builder()
                     .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -57,11 +63,11 @@ public class OrderService {
                                     .setPriceData(
                                             SessionCreateParams.LineItem.PriceData.builder()
                                                     .setCurrency("eur")
-                                                    .setUnitAmount(199L)
+                                                    .setUnitAmount(unitAmount)
                                                     .setProductData(
                                                             SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                    .setName("Certificat et Kit Magique de la Petite Souris")
-                                                                    .setDescription("Document personnalisé pour la perte de dent")
+                                                                    .setName(productName)
+                                                                    .setDescription("Téléchargement PDF immédiat")
                                                                     .build())
                                                     .build())
                                     .build())
@@ -99,14 +105,22 @@ public class OrderService {
                         ? order.getDocumentData().getChildName()
                         : "l'enfant";
 
-                // Génération du PDF (utilise ta méthode de PdfService adaptée à la petite souris)
-                byte[] pdfBytes = pdfService.generateCertificatePdf(order);
+                // Détermination de la formule (Kit complet vs Enveloppe seule)
+                boolean isFullKit = (order.getAmount() == 1.99);
 
-                // Envoi de l'e-mail via Brevo
-                emailService.sendPermitEmail(order.getCustomerEmail(), childName, pdfBytes);
+                byte[] pdfBytes;
+                if (isFullKit) {
+                    pdfBytes = pdfService.generateCertificatePdf(order);
+                } else {
+                    pdfBytes = pdfService.generateEnvelopePdf(order);
+                }
+
+                // Envoi de l'e-mail via Brevo avec le bon indicateur isFullKit
+                emailService.sendPermitEmail(order.getCustomerEmail(), childName, pdfBytes, isFullKit);
 
             } catch (Exception e) {
-                throw new RuntimeException("Erreur lors du traitement post-paiement (PDF/Email) : " + e.getMessage(), e);
+                throw new RuntimeException("Erreur lors du traitement post-paiement (PDF/Email) : " + e.getMessage(),
+                        e);
             }
         }
     }
@@ -133,7 +147,12 @@ public class OrderService {
         }
 
         try {
-            return pdfService.generateCertificatePdf(order);
+            boolean isFullKit = (order.getAmount() == 1.99);
+            if (isFullKit) {
+                return pdfService.generateCertificatePdf(order);
+            } else {
+                return pdfService.generateEnvelopePdf(order);
+            }
         } catch (Exception e) {
             throw new RuntimeException("Erreur lors de la génération du PDF", e);
         }

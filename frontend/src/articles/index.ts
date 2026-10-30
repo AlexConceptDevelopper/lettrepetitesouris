@@ -1,9 +1,10 @@
 import { article as dentDeLait } from './quand-tombe-premiere-dent-lait';
+import { article as combienDonner } from './combien-donner-petite-souris-oreiller';
 import type { ArticleData } from '../types/article';
 
 export const articles: ArticleData[] = [
   dentDeLait,
-  // Tu pourras ajouter tes futurs articles ici
+  combienDonner
 ];
 
 export const getArticleBySlug = (slug: string): ArticleData | undefined => {

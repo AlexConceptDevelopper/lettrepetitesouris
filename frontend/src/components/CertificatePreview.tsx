@@ -7,44 +7,45 @@ interface CertificatePreviewProps {
 
 export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ data }) => {
   return (
-    <div className="w-full max-w-md aspect-[1.41/1] bg-linear-to-br from-amber-50 via-rose-50 to-pink-100 rounded-xl p-4 sm:p-5 text-slate-800 shadow-2xl border-4 border-amber-300/80 relative overflow-hidden flex flex-col justify-between font-serif select-none">
+    <div className="w-full max-w-lg aspect-[1.414/1] rounded-xl shadow-2xl border-2 border-amber-300 relative overflow-hidden flex flex-col justify-between font-serif select-none bg-[#fffdf9]">
       
-      {/* Cadre intérieur propre avec padding suffisant */}
-      <div className="h-full border-2 border-dashed border-amber-400/70 rounded-lg p-3 sm:p-4 flex flex-col justify-between relative z-10 bg-white/70 backdrop-blur-xs overflow-hidden">
+      {/* Fond de certificat féerique avec le titre déjà intégré */}
+      <img 
+        src="/images/certificat-petite-souris-fond.jpg" 
+        alt="Fond Certificat Féerique" 
+        className="absolute inset-0 w-full h-full object-fill pointer-events-none z-0"
+      />
+
+      {/* Conteneur de texte ajusté pour épouser l'espace vide central et le bas du parchemin */}
+      <div className="relative z-10 w-full h-full flex flex-col justify-between px-16 py-12 sm:px-20 sm:py-14 text-[#3d2314]">
         
-        {/* En-tête */}
-        <div className="text-center space-y-0.5 border-b border-amber-200 pb-1.5">
-          <div className="flex justify-center items-center gap-1.5 text-amber-700 text-[9px] font-sans tracking-widest font-black uppercase">
-            <img src="/favicon.png" alt="Souris" className="w-3.5 h-3.5 object-contain" />
-            <span>ROYAUME DES DENTS DE LAIT</span>
-            <img src="/favicon.png" alt="Souris" className="w-3.5 h-3.5 object-contain" />
-          </div>
-          <h2 className="text-base sm:text-lg font-black text-rose-800 uppercase tracking-wide">
-            Certificat Officiel
-          </h2>
-          <p className="text-[8px] text-amber-800 italic">Attestation de récolte sous l'oreiller</p>
-        </div>
+        {/* Espace vide supérieur pour laisser respirer le titre intégré dans l'image */}
+        <div className="pt-8 sm:pt-10"></div>
 
-        {/* Corps */}
-        <div className="my-auto text-center space-y-1.5 py-1">
-          <p className="text-[9px] text-slate-500 uppercase font-sans tracking-wider">Ce document certifie que</p>
-          <p className="text-base sm:text-xl font-black text-pink-700 font-sans tracking-tight border-b-2 border-pink-300 inline-block px-3 pb-0.5">
-            {data.childName || "Léa"} ({data.childAge || 6} ans)
+        {/* Corps central (Prénom, Âge, Dent) */}
+        <div className="my-auto text-center space-y-2">
+          <p className="text-[10px] sm:text-xs text-slate-500 uppercase font-sans tracking-widest font-bold">
+            Ce document certifie que
           </p>
-          <p className="text-[10px] text-slate-700 leading-tight pt-0.5">
-            a confié sa dent de lait (<strong className="text-rose-800">{data.toothType || "Incisive"}</strong> - <i>{data.toothPosition || "Haut"}</i>) à la Petite Souris.
+          <div>
+            <span className="text-base sm:text-xl font-black text-rose-800 font-sans tracking-tight border-b-2 border-rose-300 inline-block px-4 pb-0.5">
+              {data.childName || "Léna"} ({data.childAge || 6} ans)
+            </span>
+          </div>
+          <p className="text-xs sm:text-sm text-slate-700 leading-snug pt-1 italic font-medium max-w-md mx-auto">
+            a confié sa dent de lait (<strong className="text-rose-800 not-italic font-bold">{data.toothType || "Incisive"}</strong> {data.toothPosition ? `- ${data.toothPosition}` : ""}) à la Petite Souris.
           </p>
         </div>
 
-        {/* Pied de certificat : bien ajusté au-dessus du cadre */}
-        <div className="pt-1.5 border-t border-amber-200 flex justify-between items-center text-left">
-          <div className="text-[8px] font-sans text-slate-600 space-y-0.5 max-w-[70%] leading-tight">
-            <p className="truncate">🎁 <strong>Récompense :</strong> {data.giftType || "Pièce de 2 €"}</p>
-            <p className="truncate">📍 <strong>Lieu :</strong> Grand Registre du Royaume</p>
+        {/* Pied de certificat : Récompense à gauche et Sceau à droite */}
+        <div className="pt-2 flex justify-between items-end text-left font-sans">
+          <div className="text-[10px] sm:text-xs text-slate-700 space-y-0.5 max-w-[75%] leading-tight">
+            <p>🎁 <strong>Récompense :</strong> {data.giftType || "Pièce de 2 €"}</p>
+            <p>📍 <strong>Lieu :</strong> Grand Registre du Royaume</p>
           </div>
 
-          {/* Sceau */}
-          <div className="w-10 h-10 rounded-full bg-linear-to-br from-amber-300 via-yellow-400 to-amber-500 border-2 border-amber-200 flex flex-col items-center justify-center text-amber-950 shadow-xs shrink-0 overflow-hidden p-0.5">
+          {/* Sceau / Tampon officiel */}
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-linear-to-br from-amber-300 via-yellow-400 to-amber-500 border-2 border-amber-200 flex flex-col items-center justify-center text-amber-950 shadow-md shrink-0 overflow-hidden p-0.5">
             <img src="/favicon.png" alt="Sceau" className="w-5 h-5 object-contain drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)]" />
             <span className="text-[4px] font-black uppercase tracking-tighter scale-90">OFFICIEL</span>
           </div>

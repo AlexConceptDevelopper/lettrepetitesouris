@@ -8,4 +8,5 @@ import lombok.Setter;
 public class CreateOrderRequest {
     private String customerEmail;
     private DocumentDataDto documentData;
+    private String offerType;
 }
