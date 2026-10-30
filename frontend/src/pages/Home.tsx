@@ -30,13 +30,13 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Données structurées Schema.org pour faire apparaître le prix et les étoiles sur Google
+  // Données structurées Schema.org optimisées pour produit numérique (sans erreurs Search Console)
   const schemaProductData = {
     "@context": "https://schema.org",
     "@type": "Product",
     "name": "Kit Magique Lettre Petite Souris à Imprimer",
     "image": "https://lettrepetitesouris.fr/favicon.png",
-    "description": "Kit souvenir complet comprenant le certificat officiel de dent de lait, la lettre personnalisée de la Petite Souris et l'enveloppe magique à plier.",
+    "description": "Kit souvenir complet comprenant le certificat officiel de dent de lait, la lettre personnalisée de la Petite Souris et l'enveloppe magique à plier en téléchargement PDF immédiat.",
     "brand": {
       "@type": "Brand",
       "name": "Lettre Petite Souris"
@@ -46,9 +46,9 @@ export function Home() {
       "url": "https://lettrepetitesouris.fr/",
       "priceCurrency": "EUR",
       "price": "1.99",
-      "priceValidUntil": "2028-12-31",
+      "availability": "https://schema.org/InStock",
       "itemCondition": "https://schema.org/NewCondition",
-      "availability": "https://schema.org/InStock"
+      "deliveryMethod": "http://purl.org/goodrelations/v1#DeliveryModeDirectDownload"
     },
     "aggregateRating": {
       "@type": "AggregateRating",

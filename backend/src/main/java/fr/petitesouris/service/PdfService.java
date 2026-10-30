@@ -15,7 +15,7 @@ public class PdfService {
     public byte[] generateCertificatePdf(ToothOrder order) {
         DocumentData doc = order.getDocumentData();
         
-        String childName = (doc != null && doc.getChildName() != null) ? doc.getChildName() : "Alex";
+        String childName = (doc != null && doc.getChildName() != null) ? doc.getChildName() : "Léna";
         String childAge = (doc != null && doc.getChildAge() != null) ? String.valueOf(doc.getChildAge()) : "6";
         String toothType = (doc != null && doc.getToothType() != null) ? doc.getToothType() : "Molaire";
         String city = (doc != null && doc.getCity() != null) ? doc.getCity() : "Paris";
@@ -24,17 +24,25 @@ public class PdfService {
         String gender = (doc != null && doc.getChildGender() != null) ? doc.getChildGender() : "M";
         boolean isBoy = "M".equalsIgnoreCase(gender);
         
-        String cherForm = isBoy ? "Mon cher " + childName : "Ma chère " + childName;
+        // Récupération et nettoyage du message personnalisé (comme dans l'aperçu frontend)
+        String rawMsg = (doc != null && doc.getCustomMessage() != null && !doc.getCustomMessage().isEmpty()) 
+            ? doc.getCustomMessage() 
+            : "Je suis bien passée cette nuit pendant que tu dormais profondément à " + city + " ! J'ai récupéré ta jolie dent sous ton oreiller.";
+        
+        // Nettoyage de sécurité contre les doublons de salutation
+        String cleanedMsg = rawMsg.replaceAll("(?i)^(ma chère|mon cher)\\s+[^,\\n]+,?\\s*", "").trim();
 
         // Thème dynamique Fille (Rose) vs Garçon (Bleu)
-        String primaryColor = isBoy ? "#1e3a8a" : "#881337";   // Bleu nuit vs Magenta foncé
-        String secondaryColor = isBoy ? "#0284c7" : "#be123c"; // Bleu céleste vs Rose vif
-        String lightBg = isBoy ? "#f0f9ff" : "#fff1f2";        // Fond bleu très clair vs Rose très clair
+        String primaryColor = isBoy ? "#1e3a8a" : "#881337";   
+        String secondaryColor = isBoy ? "#0284c7" : "#be123c"; 
+        String lightBg = isBoy ? "#f0f9ff" : "#fff1f2";        
         String borderPill = isBoy ? "#bae6fd" : "#fbcfe8";
 
-        // Charger les images en Base64
+        // Charger les ressources en Base64
         String faviconBase64 = loadImageAsBase64("static/favicon.png");
         String logoBase64 = loadImageAsBase64("static/logo-lettre-petite-souris.png");
+        String enveloppeFondBase64 = loadImageAsBase64("static/enveloppe-magique-fond.jpg");
+        String lettreFondBase64 = loadImageAsBase64("images/lettre-petite-souris-fond.jpg");
 
         try (Playwright playwright = Playwright.create()) {
             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(true));
@@ -47,6 +55,7 @@ public class PdfService {
                     <meta charset='UTF-8'>
                     <style>
                         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap');
+                        @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
                         @page { size: A4 landscape; margin: 0; }
                         body { font-family: 'Montserrat', Arial, sans-serif; margin: 0; padding: 0; background: #ffffff; -webkit-print-color-adjust: exact; }
@@ -125,7 +134,7 @@ public class PdfService {
                         .cert-stamp-box { display: flex; align-items: center; gap: 8px; }
                         .cert-stamp-img { width: 50px; height: 50px; object-fit: contain; }
 
-                        /* ---------------- PAGE 2 : LETTRE PAYSAGE (GARANTIE 1 PAGE) ---------------- */
+                        /* ---------------- PAGE 2 : LETTRE PAYSAGE (SYNCHRO AVEC LE FRONT) ---------------- */
                         .page-lettre { 
                             width: 297mm; 
                             height: 210mm; 
@@ -136,45 +145,44 @@ public class PdfService {
                             display: flex; 
                             justify-content: center; 
                             align-items: center; 
-                            background: #fdfbf7; 
+                            background: #fffdf9; 
                         }
 
                         .lettre-card {
                             width: 220mm;
-                            height: 180mm;
-                            background: #ffffff;
-                            border: 2px solid %s;
-                            border-radius: 24px;
-                            padding: 25px 35px;
-                            box-sizing: border-box;
+                            height: 190mm;
+                            position: relative;
+                            overflow: hidden;
                             display: flex;
                             flex-direction: column;
                             justify-content: space-between;
-                            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+                            box-sizing: border-box;
+                            background: #fffdf9;
                         }
 
-                        .lettre-header { text-align: center; border-bottom: 1px solid #f3f4f6; padding-bottom: 10px; display: flex; flex-direction: column; align-items: center; }
-                        .lettre-title { font-size: 20px; font-weight: 900; color: %s; margin-top: 4px; letter-spacing: 1px; }
-                        .lettre-sub { font-size: 9px; color: %s; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-
-                        .lettre-body {
-                            font-size: 12.5px;
-                            color: #1f2937;
-                            line-height: 1.65;
-                            font-style: italic;
-                            margin: 10px 0;
+                        .lettre-bg-img {
+                            position: absolute;
+                            inset: 0;
+                            width: 100%%;
+                            height: 100%%;
+                            object-fit: fill;
+                            pointer-events: none;
+                            z-index: 0;
                         }
-                        .lettre-body b { font-style: normal; font-weight: 700; color: %s; }
 
-                        .lettre-footer {
+                        .lettre-content {
+                            position: relative;
+                            z-index: 10;
+                            width: 100%%;
+                            height: 100%%;
                             display: flex;
+                            flex-direction: column;
                             justify-content: space-between;
-                            align-items: flex-end;
-                            border-top: 1px solid #f3f4f6;
-                            padding-top: 10px;
+                            box-sizing: border-box;
+                            padding: 25mm 30mm 20mm 30mm;
+                            font-family: serif;
+                            color: #3d2314;
                         }
-
-                        .lettre-signature { text-align: right; color: %s; font-weight: 700; font-size: 13px; }
 
                         /* ---------------- PAGE 3 : ENVELOPPE A4 PAYSAGE ---------------- */
                         .page-enveloppe {
@@ -183,94 +191,8 @@ public class PdfService {
                             page-break-after: avoid;
                             box-sizing: border-box;
                             position: relative;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            align-items: center;
+                            overflow: hidden;
                             background: #ffffff;
-                            padding: 10mm;
-                        }
-
-                        .env-cut-outer {
-                            width: 250mm;
-                            height: 165mm;
-                            border: 2px dashed %s;
-                            border-radius: 16px;
-                            background: %s;
-                            position: relative;
-                            box-sizing: border-box;
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 10px;
-                        }
-
-                        .env-rabat-haut {
-                            background: #ffffff;
-                            border: 1px dashed %s;
-                            color: %s;
-                            font-size: 8px;
-                            font-weight: 800;
-                            padding: 4px 24px;
-                            border-radius: 6px;
-                        }
-
-                        .env-center-box {
-                            width: 82%%;
-                            height: 85mm;
-                            background: #ffffff;
-                            border: 1px solid %s;
-                            border-radius: 16px;
-                            padding: 15px 25px;
-                            box-sizing: border-box;
-                            position: relative;
-                            display: flex;
-                            align-items: center;
-                            justify-content: space-between;
-                            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
-                        }
-
-                        .env-stamp-box {
-                            position: absolute;
-                            top: 10px;
-                            right: 15px;
-                            border: 1px dashed %s;
-                            border-radius: 8px;
-                            padding: 4px 8px;
-                            text-align: center;
-                            background: %s;
-                            font-size: 8px;
-                            color: %s;
-                            font-weight: 700;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            gap: 2px;
-                        }
-
-                        .env-dest-content { display: flex; flex-direction: column; justify-content: center; }
-                        .env-to { font-size: 9px; color: #9ca3af; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
-                        .env-name-row { display: flex; align-items: center; gap: 12px; margin: 6px 0; }
-                        .env-name { font-size: 26px; font-weight: 900; color: %s; }
-                        .env-mascot-img { width: 50px; height: 50px; object-fit: contain; }
-                        .env-sub { font-size: 11px; color: #4b5563; font-style: italic; }
-
-                        .env-bottom-controls {
-                            width: 85%%;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                        }
-
-                        .env-pill-fold {
-                            background: #ffffff;
-                            border: 1px dashed %s;
-                            color: %s;
-                            font-size: 8px;
-                            font-weight: 800;
-                            padding: 4px 12px;
-                            border-radius: 12px;
                         }
                     </style>
                 </head>
@@ -307,35 +229,41 @@ public class PdfService {
                         </div>
                     </div>
 
-                    <!-- PAGE 2 : LA LETTRE (GARANTIE 1 SEULE PAGE PAYSAGE) -->
+                    <!-- PAGE 2 : LA LETTRE -->
                     <div class='page-lettre'>
                         <div class='lettre-card'>
-                            <div class='lettre-header'>
-                                <img src='%s' style='height: 38px; width: auto;' alt='Logo' />
-                                <div class='lettre-title'>LA LETTRE DE LA PETITE SOURIS</div>
-                                <div class='lettre-sub'>MESSAGE MAGIQUE SOUS L'OREILLER</div>
-                            </div>
+                            <!-- Fond de la lettre féerique -->
+                            <img src='%s' class='lettre-bg-img' alt='Fond Lettre' />
 
-                            <div class='lettre-body'>
-                                <p><b>%s,</b></p>
-                                <p>
-                                    Je suis bien passée cette nuit pendant que tu dormais paisiblement à <b>%s</b> ! 
-                                    En m'approchant tout doucement sur la pointe de mes petites pattes, j'ai trouvé ta jolie dent de lait (<b>%s</b>) cachée sous ton oreiller.
-                                </p>
-                                <p>
-                                    Quelle merveilleuse dent bien propre et bien entretenue ! Elle va briller de mille feux dans le Grand Palais en Sucre de notre Royaume. 
-                                    Pour te féliciter de ton courage et de ton beau sourire, je t'ai laissé une petite surprise : <b>%s</b>.
-                                </p>
-                                <p>
-                                    Continue de bien prendre soin de tes dents chaque matin et chaque soir avec ta brosse à dents !
-                                </p>
-                            </div>
+                            <!-- Conteneur de texte -->
+                            <div class='lettre-content'>
+                                <!-- Zone Haute : Salutation dynamique -->
+                                <div style='padding-top: 10px; text-align: left;'>
+                                    <p style='font-weight: bold; color: #881337; font-size: 22px; font-family: serif; font-style: italic; letter-spacing: 0.5px; margin: 0;'>
+                                        %s %s,
+                                    </p>
+                                </div>
 
-                            <div class='lettre-footer'>
-                                <div style='font-size: 10px; color: #9ca3af;'>Royaume des Dents • Document Officiel 2026</div>
-                                <div class='lettre-signature'>
-                                    <div style='font-size: 11px; font-weight: normal; font-style: italic;'>Avec toute ma tendresse magique,</div>
-                                    <div>La Petite Souris 🌸</div>
+                                <!-- Zone Centrale : Message personnalisé dynamique (incluant la ville et le texte saisi) -->
+                                <div style='margin: auto 0; text-align: left; padding: 10px 0;'>
+                                    <div style='color: #4a2810; white-space: pre-line; line-height: 1.6; font-style: italic; font-size: 13.5px; font-weight: 500;'>
+                                        %s
+                                    </div>
+                                </div>
+
+                                <!-- Zone Basse : Pied de page et Signature alignés -->
+                                <div style='width: 100%%; display: flex; justify-content: space-between; align-items: flex-end; font-family: sans-serif; padding-bottom: 5px;'>
+                                    <span style='font-size: 10px; color: #64748b; font-weight: 500;'>Royaume des Dents • 2026</span>
+                                    
+                                    <div style='display: flex; flex-direction: column; align-items: flex-start; padding-right: 10px;'>
+                                        <span style='font-size: 11px; color: #5c3a21; display: block; font-style: italic; font-family: serif; margin-bottom: 2px; width: 100%%; text-align: right;'>
+                                            Avec toute ma tendresse,
+                                        </span>
+                                        <span style='font-size: 14px; font-weight: 900; color: #881337; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 6px;'>
+                                            La Petite Souris 
+                                            <img src='%s' alt='Favicon' style='width: 22px; height: 22px; object-fit: contain; display: inline-block; vertical-align: middle;' />
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -343,52 +271,24 @@ public class PdfService {
 
                     <!-- PAGE 3 : ENVELOPPE A4 PAYSAGE -->
                     <div class='page-enveloppe'>
-                        <div style='width: 100%%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;'>
-                            <div style='font-size: 11px; font-weight: 800; color: %s;'>✂️ GABARIT D'ENVELOPPE A4</div>
-                            <div style='font-size: 9px; color: #6b7280;'>À découper et plier</div>
-                        </div>
-
-                        <div class='env-cut-outer'>
-                            <div class='env-rabat-haut'>▼ RABAT HAUT</div>
-
-                            <div class='env-center-box'>
-                                <div class='env-stamp-box'>
-                                    <img src='%s' style='width: 18px; height: 18px;' alt='Dent' />
-                                    <span>1ER CHOIX</span>
-                                </div>
-
-                                <div class='env-dest-content'>
-                                    <div class='env-to'>DESTINATAIRE :</div>
-                                    <div class='env-name-row'>
-                                        <span class='env-name'>%s</span>
-                                        <img src='%s' class='env-mascot-img' alt='Petite Souris' />
-                                    </div>
-                                    <div class='env-sub'>Sous l'oreiller 🛏️ (Royaume des Dents)</div>
-                                </div>
-
-                                <img src='%s' style='height: 55px; width: auto; opacity: 0.95;' alt='Logo Feerique' />
-                            </div>
-
-                            <div class='env-bottom-controls'>
-                                <div class='env-pill-fold'>► PLIER</div>
-                                <div class='env-rabat-haut'>▲ RABAT BAS</div>
-                                <div class='env-pill-fold'>PLIER ◄</div>
-                            </div>
-                        </div>
-
-                        <div style='font-size: 9px; color: #6b7280; margin-top: 6px;'>
-                            ✨ 1. Imprimez • 2. Découpez les pointillés ✂️ • 3. Pliez et collez !
+                        <img 
+                            src='%s' 
+                            style='position: absolute; top: 0; left: 0; width: 100%%; height: 100%%; object-fit: fill;' 
+                            alt='Gabarit Enveloppe Magique' 
+                        />
+                        <div style='position: absolute; left: 50%%; top: 50%%; transform: translate(-50%%, -59%%); width: 40%%; text-align: center;'>
+                            <span style='font-family: "Great Vibes", cursive; font-size: 38pt; color: #4a2810; text-shadow: 0 1px 2px rgba(255, 248, 220, 0.8);'>
+                                %s
+                            </span>
                         </div>
                     </div>
                 </body>
                 </html>
                 """.formatted(
-                    borderPill, lightBg, primaryColor, secondaryColor, secondaryColor, // Styles Certificat
-                    borderPill, primaryColor, secondaryColor, secondaryColor, secondaryColor, // Styles Lettre
-                    secondaryColor, lightBg, secondaryColor, secondaryColor, borderPill, secondaryColor, lightBg, secondaryColor, primaryColor, secondaryColor, secondaryColor, // Styles Enveloppe
-                    logoBase64, childName, childAge, toothType, gift, faviconBase64, // Format Certificat
-                    logoBase64, cherForm, city, toothType.toLowerCase(), gift, // Format Lettre
-                    secondaryColor, faviconBase64, childName, faviconBase64, logoBase64 // Format Enveloppe
+                    borderPill, lightBg, primaryColor, secondaryColor, secondaryColor, // Certificat Styles
+                    logoBase64, childName, childAge, toothType, gift, faviconBase64, // Certificat Contenu
+                    lettreFondBase64, isBoy ? "Mon cher" : "Ma chère", childName, cleanedMsg, faviconBase64, // Lettre Contenu (avec message dynamique)
+                    enveloppeFondBase64, childName // Enveloppe Contenu
                 );
 
             page.setContent(htmlContent);
