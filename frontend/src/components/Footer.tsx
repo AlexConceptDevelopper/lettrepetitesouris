@@ -72,7 +72,7 @@ export const Footer: React.FC = () => {
             rel="noopener noreferrer" 
             className="text-slate-400 hover:text-amber-300 font-semibold underline transition"
           >
-            CubTaik Studio
+            CubTaik
           </a>
         </p>
 

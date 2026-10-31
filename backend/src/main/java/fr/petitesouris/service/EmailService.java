@@ -1,11 +1,15 @@
 package fr.petitesouris.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,6 +52,9 @@ public class EmailService {
                 ? "Kit_Complet_Petite_Souris_" + childName + ".pdf"
                 : "Enveloppe_Magique_" + childName + ".pdf";
 
+            // Chargement du favicon en Base64 depuis static/
+            String logoBase64 = loadImageAsBase64("static/favicon-transparent.png");
+
             String htmlContent = """
                     <!DOCTYPE html>
                     <html>
@@ -55,7 +62,7 @@ public class EmailService {
                         <div style="max-width: 600px; margin: 0 auto; background-color: #1e1b4b; padding: 30px; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 16px; text-align: center;">
 
                             <div style="margin-bottom: 15px;">
-                                <img src="%s/favicon-transparent.png" alt="Logo" style="width: 50px; height: 50px; object-fit: contain;" />
+                                <img src="%s" alt="Logo" style="width: 50px; height: 50px; object-fit: contain;" />
                             </div>
 
                             <h1 style="color: #fbbf24; margin-top: 0;">Chouette, une dent perdue ! 🦷✨</h1>
@@ -75,7 +82,7 @@ public class EmailService {
                     </body>
                     </html>
                     """
-                    .formatted(frontendUrl, descriptionText, instructionText, frontendUrl);
+                    .formatted(logoBase64, descriptionText, instructionText, frontendUrl);
 
             String url = "https://api.brevo.com/v3/smtp/email";
 
@@ -83,16 +90,26 @@ public class EmailService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             headers.set("api-key", brevoApiKey);
 
-            String base64Pdf = Base64.getEncoder().encodeToString(pdfBytes);
+            // Encodage propre du PDF en Base64 string
+            String base64Pdf = new String(Base64.getEncoder().encode(pdfBytes), StandardCharsets.UTF_8);
 
-            Map<String, Object> emailPayload = Map.of(
-                    "sender", Map.of("email", fromEmail, "name", fromName),
-                    "to", List.of(Map.of("email", toEmail)),
-                    "subject", subject,
-                    "htmlContent", htmlContent,
-                    "attachment", List.of(Map.of(
-                            "content", base64Pdf,
-                            "name", attachmentName)));
+            Map<String, Object> senderMap = new HashMap<>();
+            senderMap.put("email", fromEmail);
+            senderMap.put("name", fromName);
+
+            Map<String, Object> toMap = new HashMap<>();
+            toMap.put("email", toEmail);
+
+            Map<String, Object> attachmentMap = new HashMap<>();
+            attachmentMap.put("content", base64Pdf);
+            attachmentMap.put("name", attachmentName);
+
+            Map<String, Object> emailPayload = new HashMap<>();
+            emailPayload.put("sender", senderMap);
+            emailPayload.put("to", List.of(toMap));
+            emailPayload.put("subject", subject);
+            emailPayload.put("htmlContent", htmlContent);
+            emailPayload.put("attachment", List.of(attachmentMap));
 
             HttpEntity<Object> entity = new HttpEntity<>(emailPayload, headers);
             restTemplate.postForEntity(url, entity, String.class);
@@ -100,6 +117,20 @@ public class EmailService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Échec de l'envoi de l'e-mail pour " + childName, e);
+        }
+    }
+
+    private String loadImageAsBase64(String resourcePath) {
+        try {
+            ClassPathResource resource = new ClassPathResource(resourcePath);
+            try (InputStream is = resource.getInputStream()) {
+                byte[] bytes = is.readAllBytes();
+                String mimeType = resourcePath.endsWith(".png") ? "image/png" : "image/jpeg";
+                return "data:" + mimeType + ";base64," + Base64.getEncoder().encodeToString(bytes);
+            }
+        } catch (Exception e) {
+            System.err.println("Impossible de charger le logo de l'e-mail : " + resourcePath);
+            return "";
         }
     }
 }
