@@ -3,6 +3,7 @@ package fr.petitesouris.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +34,7 @@ public class EmailService {
     /**
      * Envoie l'e-mail avec le PDF de la Petite Souris (Kit complet ou Enveloppe seule) en pièce jointe via l'API HTTP de Brevo.
      */
+    @Async
     public void sendPermitEmail(String toEmail, String childName, byte[] pdfBytes, boolean isFullKit) {
         try {
             // Sujet et textes adaptés selon la formule
@@ -53,7 +55,7 @@ public class EmailService {
                 : "Enveloppe_Magique_" + childName + ".pdf";
 
             // Chargement du favicon en Base64 depuis static/
-            String logoBase64 = loadImageAsBase64("static/favicon-transparent.png");
+            String logoBase64 = loadImageAsBase64("static/favicon.png");
 
             String htmlContent = """
                     <!DOCTYPE html>

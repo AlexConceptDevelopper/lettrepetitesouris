@@ -147,7 +147,7 @@ public class PdfService {
                             .env-target {
                                 position: absolute;
                                 left: 50%%;
-                                top: 61%%;
+                                top: 59%%;
                                 transform: translate(-50%%, -50%%);
                                 width: 45%%;
                                 text-align: center;
@@ -280,7 +280,7 @@ public class PdfService {
                             width: 297mm; height: 210mm; position: relative; overflow: hidden; background: #ffffff;
                         }
                         .env-target {
-                            position: absolute; left: 50%%; top: 61%%; transform: translate(-50%%, -50%%); width: 45%%; text-align: center; z-index: 10;
+                            position: absolute; left: 50%%; top: 59%%; transform: translate(-50%%, -50%%); width: 45%%; text-align: center; z-index: 10;
                         }
                         .env-name {
                             font-family: 'Great Vibes', cursive, serif;

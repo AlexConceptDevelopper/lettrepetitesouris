@@ -10,17 +10,42 @@ export function Succes() {
   const navigate = useNavigate();
   const sessionId = searchParams.get("session_id");
 
+  const [isGenerating, setIsGenerating] = useState(false);
   const [hasDownloaded, setHasDownloaded] = useState(false);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     if (!sessionId) {
       alert("Identifiant de session manquant.");
       return;
     }
 
-    // Lance le téléchargement sécurisé dans un nouvel onglet
-    window.open(getPdfDownloadUrl(sessionId), "_blank");
-    setHasDownloaded(true);
+    try {
+      setIsGenerating(true);
+      const downloadUrl = getPdfDownloadUrl(sessionId);
+
+      // On récupère le PDF via fetch pour afficher le loader pendant la génération Playwright
+      const response = await fetch(downloadUrl);
+      if (!response.ok) throw new Error("Erreur lors de la génération du PDF");
+
+      const blob = await response.blob();
+      const blobUrl = window.URL.createObjectURL(blob);
+      
+      // Déclenchement automatique du téléchargement du fichier
+      const link = document.createElement("a");
+      link.href = blobUrl;
+      link.download = "Kit_Complet_Petite_Souris.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(blobUrl);
+
+      setHasDownloaded(true);
+    } catch (error) {
+      console.error(error);
+      alert("Une erreur est survenue lors de la génération du PDF. Veuillez réessayer ou vérifier vos e-mails.");
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -71,16 +96,32 @@ export function Succes() {
           <div className="pt-2 flex flex-col gap-3">
             <button
               onClick={handleDownload}
-              style={{ cursor: "pointer" }}
-              className="w-full py-4 bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-xl uppercase tracking-wider text-xs border border-amber-300/40 transition-transform transform hover:scale-[1.02]"
+              disabled={isGenerating}
+              style={{ cursor: isGenerating ? "not-allowed" : "pointer" }}
+              className="w-full py-4 bg-linear-to-r from-amber-400 via-pink-500 to-purple-600 hover:opacity-95 text-slate-950 font-black rounded-xl shadow-xl uppercase tracking-wider text-xs border border-amber-300/40 transition-transform transform hover:scale-[1.02] flex items-center justify-center gap-2 disabled:opacity-70"
             >
-              📥 Télécharger mon Kit Magique (PDF)
+              {isGenerating ? (
+                <>
+                  <svg className="animate-spin h-5 w-5 text-slate-950" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  ⏳ Génération en cours... (de quelques secondes à 2 minutes)
+                </>
+              ) : (
+                "📥 Télécharger mon Kit Magique (PDF)"
+              )}
             </button>
+
+            {/* Petit texte indicatif permanent sous le bouton */}
+            <p className="text-[11px] text-slate-400 italic">
+              * La préparation magique des documents peut prendre de quelques secondes à 2 minutes. Merci de patienter un instant.
+            </p>
 
             <button
               onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
-              className="w-full py-3 bg-slate-950 hover:bg-slate-900 text-slate-300 font-bold rounded-xl border border-slate-800 text-xs tracking-wider transition-colors"
+              className="w-full py-3 bg-slate-950 hover:bg-slate-900 text-slate-300 font-bold rounded-xl border border-slate-800 text-xs tracking-wider transition-colors mt-2"
             >
               🏠 Retourner à l'accueil
             </button>

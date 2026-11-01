@@ -96,32 +96,38 @@ public class OrderService {
         ToothOrder order = orderRepository.findByStripeSessionId(sessionId)
                 .orElseThrow(() -> new RuntimeException("COMMANDE_INTROUVABLE"));
 
-        if ("PENDING".equals(order.getStatus())) {
+        // On bloque immédiatement si ce n'est plus PENDING pour éviter les doublons
+        if (!"PENDING".equals(order.getStatus())) {
+            return; 
+        }
+
+        order.setStatus("PROCESSING"); // Statut intermédiaire pour verrouiller
+        orderRepository.save(order);
+
+        try {
+            String childName = (order.getDocumentData() != null && order.getDocumentData().getChildName() != null)
+                    ? order.getDocumentData().getChildName()
+                    : "l'enfant";
+
+            boolean isFullKit = (order.getAmount() == 1.99);
+
+            byte[] pdfBytes;
+            if (isFullKit) {
+                pdfBytes = pdfService.generateCertificatePdf(order);
+            } else {
+                pdfBytes = pdfService.generateEnvelopePdf(order);
+            }
+
+            // Envoi asynchrone : ne bloque plus la réponse HTTP
+            emailService.sendPermitEmail(order.getCustomerEmail(), childName, pdfBytes, isFullKit);
+
             order.setStatus("PAID");
             orderRepository.save(order);
 
-            try {
-                String childName = (order.getDocumentData() != null && order.getDocumentData().getChildName() != null)
-                        ? order.getDocumentData().getChildName()
-                        : "l'enfant";
-
-                // Détermination de la formule (Kit complet vs Enveloppe seule)
-                boolean isFullKit = (order.getAmount() == 1.99);
-
-                byte[] pdfBytes;
-                if (isFullKit) {
-                    pdfBytes = pdfService.generateCertificatePdf(order);
-                } else {
-                    pdfBytes = pdfService.generateEnvelopePdf(order);
-                }
-
-                // Envoi de l'e-mail via Brevo avec le bon indicateur isFullKit
-                emailService.sendPermitEmail(order.getCustomerEmail(), childName, pdfBytes, isFullKit);
-
-            } catch (Exception e) {
-                throw new RuntimeException("Erreur lors du traitement post-paiement (PDF/Email) : " + e.getMessage(),
-                        e);
-            }
+        } catch (Exception e) {
+            order.setStatus("PENDING"); // Remet en pending en cas d'erreur critique
+            orderRepository.save(order);
+            throw new RuntimeException("Erreur lors du traitement post-paiement (PDF/Email) : " + e.getMessage(), e);
         }
     }
 
