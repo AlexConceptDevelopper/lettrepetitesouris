@@ -1,13 +1,11 @@
 package fr.petitesouris.service;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
@@ -29,7 +27,11 @@ public class EmailService {
     @Value("${brevo.api.key:}")
     private String brevoApiKey;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
+
+    public EmailService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     /**
      * Envoie l'e-mail avec le PDF de la Petite Souris (Kit complet ou Enveloppe seule) en pièce jointe via l'API HTTP de Brevo.
@@ -54,9 +56,6 @@ public class EmailService {
                 ? "Kit_Complet_Petite_Souris_" + childName + ".pdf"
                 : "Enveloppe_Magique_" + childName + ".pdf";
 
-            // Chargement du favicon en Base64 depuis static/
-            String logoBase64 = loadImageAsBase64("static/favicon.png");
-
             String htmlContent = """
                     <!DOCTYPE html>
                     <html>
@@ -64,7 +63,7 @@ public class EmailService {
                         <div style="max-width: 600px; margin: 0 auto; background-color: #1e1b4b; padding: 30px; border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 16px; text-align: center;">
 
                             <div style="margin-bottom: 15px;">
-                                <img src="%s" alt="Logo" style="width: 50px; height: 50px; object-fit: contain;" />
+                                <img src="%s/favicon.png" alt="Logo" style="width: 50px; height: 50px; object-fit: contain;" />
                             </div>
 
                             <h1 style="color: #fbbf24; margin-top: 0;">Chouette, une dent perdue ! 🦷✨</h1>
@@ -84,7 +83,7 @@ public class EmailService {
                     </body>
                     </html>
                     """
-                    .formatted(logoBase64, descriptionText, instructionText, frontendUrl);
+                    .formatted(frontendUrl, descriptionText, instructionText, frontendUrl);
 
             String url = "https://api.brevo.com/v3/smtp/email";
 
@@ -119,20 +118,6 @@ public class EmailService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Échec de l'envoi de l'e-mail pour " + childName, e);
-        }
-    }
-
-    private String loadImageAsBase64(String resourcePath) {
-        try {
-            ClassPathResource resource = new ClassPathResource(resourcePath);
-            try (InputStream is = resource.getInputStream()) {
-                byte[] bytes = is.readAllBytes();
-                String mimeType = resourcePath.endsWith(".png") ? "image/png" : "image/jpeg";
-                return "data:" + mimeType + ";base64," + Base64.getEncoder().encodeToString(bytes);
-            }
-        } catch (Exception e) {
-            System.err.println("Impossible de charger le logo de l'e-mail : " + resourcePath);
-            return "";
         }
     }
 }
