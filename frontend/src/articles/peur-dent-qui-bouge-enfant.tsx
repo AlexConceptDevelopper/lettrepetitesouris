@@ -13,7 +13,6 @@ export const article: ArticleData = {
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/peurDent.jpg" 
@@ -30,7 +29,7 @@ export const article: ArticleData = {
         1. Dédramatiser et changer de regard sur la douleur
       </h2>
       <p>
-        Pour un enfant, une dent qui bouge est souvent perçue comme une perte de contrôle de son propre corps. Expliquez-lui que c’est un signe formidable : cela prouve qu'il grandit et que ses dents de "grands" s'impatientent de prendre la relève.
+        Pour un enfant, une dent qui bouge est souvent perçue comme une perte de contrôle de son propre corps. Expliquez-lui que c’est un signe formidable : cela prouve qu'il grandit (vous pouvez jeter un œil à notre article sur <Link to="/blog/ordre-chute-dents-de-lait-calendrier" className="text-amber-300 underline hover:text-amber-200">l'ordre de chute des dents de lait</Link> pour lui montrer comment se déroule la suite) et que ses dents de "grands" s'impatientent de prendre la relève.
       </p>
 
       <ul className="list-disc list-inside space-y-2 pl-2 text-slate-300">
@@ -46,17 +45,16 @@ export const article: ArticleData = {
         2. Rendre l'événement ludique grâce à la magie
       </h2>
       <p>
-        Rien de tel que de projeter son imagination vers l'après. Lorsque l'enfant réalise que la perte de la dent déclenche l'arrivée d'une lettre personnalisée ou d'une surprise sous l'oreiller, la peur laisse instantanément place à l'excitation. Pour approfondir le sujet de l'âge des chutes, vous pouvez consulter notre <Link to="/blog/a-quel-age-tombe-premiere-dent-de-lait" className="text-amber-300 underline hover:text-amber-200">guide complet sur le calendrier des dents de lait</Link>.
+        Rien de tel que de projeter son imagination vers l'après. Lorsque l'enfant réalise que la perte de la dent déclenche l'arrivée d'une lettre personnalisée ou d'une surprise sous l'oreiller, la peur laisse instantanément place à l'excitation. Pour approfondir le sujet de l'âge des chutes, vous pouvez consulter notre <Link to="/blog/quand-tombe-premiere-dent-lait" className="text-amber-300 underline hover:text-amber-200">guide complet sur l'âge de la première dent de lait</Link>.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
         3. Préparer le terrain avant le coucher
       </h2>
       <p>
-        Si la dent tombe en fin de journée, c'est le moment idéal pour canaliser l'énergie de votre enfant. Proposez-lui de préparer son set de nuit, de ranger précieusement sa petite dent dans une belle <Link to="/" className="text-pink-300 underline hover:text-pink-200">enveloppe magique</Link> et d'attendre la venue de la Petite Souris l'esprit serein.
+        Si la dent tombe en fin de journée, c'est le moment idéal pour canaliser l'énergie de votre enfant. Proposez-lui de préparer son set de nuit, de ranger précieusement sa petite dent dans une belle <Link to="/gratuit" className="text-pink-300 underline hover:text-pink-200">enveloppe magique gratuite</Link> et d'attendre la venue de la Petite Souris l'esprit serein.
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Transformez sa peur en un merveilleux souvenir ✨

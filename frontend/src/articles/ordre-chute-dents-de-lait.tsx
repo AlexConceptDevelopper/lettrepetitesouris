@@ -13,7 +13,6 @@ export const article: ArticleData = {
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/ordreDents.jpg" 
@@ -30,7 +29,7 @@ export const article: ArticleData = {
         1. Le grand départ : Les incisives centrales (6 - 7 ans)
       </h2>
       <p>
-        Ce sont invariablement les pionnières ! Les deux incisives du bas tombent généralement en premier, suivies de très près par les deux incisives du haut. C'est le signal officiel du début de la grande aventure de la perte des dents. Pour situer ce premier cap par rapport aux autres, vous pouvez consulter notre article complet sur <Link to="/blog/a-quel-age-tombe-premiere-dent-de-lait" className="text-amber-300 underline hover:text-amber-200">l'âge de la première dent de lait</Link>.
+        Ce sont invariablement les pionnières ! Les deux incisives du bas tombent généralement en premier, suivies de très près par les deux incisives du haut. C'est le signal officiel du début de la grande aventure de la perte des dents. Pour situer ce premier cap par rapport aux autres, vous pouvez consulter notre article complet sur <Link to="/blog/quand-tombe-premiere-dent-lait" className="text-amber-300 underline hover:text-amber-200">l'âge de la première dent de lait</Link>. Si votre enfant stresse à l'idée de sentir sa dent bouger, lisez nos conseils pour <Link to="/blog/comment-aider-enfant-peur-dent-qui-bouge" className="text-amber-300 underline hover:text-amber-200">aider un enfant qui a peur d'une dent qui bouge</Link>.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
@@ -53,10 +52,9 @@ export const article: ArticleData = {
         3. Anticiper chaque passage avec magie
       </h2>
       <p>
-        Que ce soit pour la toute première incisive ou pour la dernière molaire de fin de parcours, chaque perte de dent mérite d'être célébrée. Pensez à préparer vos <Link to="/" className="text-pink-300 underline hover:text-pink-200">enveloppes et certificats personnalisés</Link> à l'avance pour ne jamais vous retrouver pris au dépourvu au milieu de la nuit.
+        Que ce soit pour la toute première incisive ou pour la dernière molaire de fin de parcours, chaque perte de dent mérite d'être célébrée. Vous pouvez utiliser notre <Link to="/gratuit" className="text-amber-300 underline hover:text-amber-200">calendrier des dents gratuit à imprimer</Link> pour suivre toutes ces étapes, ou préparer vos <Link to="/" className="text-pink-300 underline hover:text-pink-200">enveloppes et certificats personnalisés</Link> à l'avance.
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Chaque dent perdue est un événement magique unique ✨

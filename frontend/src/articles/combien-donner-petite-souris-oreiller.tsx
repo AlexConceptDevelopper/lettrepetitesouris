@@ -8,12 +8,11 @@ export const article: ArticleData = {
   date: '2026-10-20',
   readTime: '4 min',
   category: 'Conseils Parents',
-  image: '/images/combienDonner.jpg', // Tu pourras remplacer par une image dédiée si tu veux
+  image: '/images/combienDonner.jpg',
   keywords: ['combien donner petite souris', 'tarif petite souris dent de lait', 'piece sous oreiller', 'montant dent de lait'],
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/combienDonner.jpg" 
@@ -30,11 +29,11 @@ export const article: ArticleData = {
         1. Les tarifs constatés en pratique
       </h2>
       <p>
-        Les montants varient généralement selon l'âge de l'enfant, le rang de la dent (la toute première marque souvent un événement plus marquant !) et les habitudes de la famille :
+        Les montants varient généralement selon l'âge de l'enfant (souvent repérable grâce au <Link to="/blog/ordre-chute-dents-de-lait-calendrier" className="text-amber-300 underline hover:text-amber-200">calendrier de l'ordre de chute des dents</Link>), le rang de la dent et les habitudes de la famille :
       </p>
 
       <ul className="list-disc list-inside space-y-2 pl-2 text-slate-300">
-        <li><strong>Pour la toute première dent :</strong> C'est souvent l'occasion d'être plus généreux, avec une pièce de <strong>2 € ou un petit billet de 5 €</strong> magique.</li>
+        <li><strong>Pour la toute première dent :</strong> C'est souvent l'occasion d'être plus généreux, avec une pièce de <strong>2 € ou un petit billet de 5 €</strong> magique. Pour savoir quand situer cet événement, consultez notre article sur <Link to="/blog/quand-tombe-premiere-dent-lait" className="text-amber-300 underline hover:text-amber-200">l'âge de la première dent de lait</Link>.</li>
         <li><strong>Pour les dents suivantes :</strong> Le tarif standard tourne généralement autour de <strong>1 € ou 2 €</strong> par dent.</li>
         <li><strong>La "Dent du Milieu" ou des grands :</strong> Vers 9-10 ans, pour les dernières molaires, certains parents glissent parfois un billet de 5 €.</li>
       </ul>
@@ -44,20 +43,19 @@ export const article: ArticleData = {
       </div>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
-        2. Et si on n'a pas de monnaie sous la main ?
+        2. Et si on n'a pas de monnaie ou qu'on cherche autre chose ?
       </h2>
       <p>
-        Panique à 23h : impossible de mettre la main sur une pièce de monnaie dans les portefeuilles du foyer ! Pas de panique, la Petite Souris a plus d'un tour dans son sac. Vous pouvez compenser une petite pièce (ou l'absence de monnaie) en misant à fond sur l'imaginaire : une jolie lettre personnalisée signée de sa main ou un certificat officiel du Royaume des Dents font toujours un effet extraordinaire.
+        Panique à 23h : impossible de mettre la main sur une pièce de monnaie ! Pas de panique, vous pouvez vous tourner vers des <Link to="/blog/que-mettre-sous-oreiller-a-part-argent" className="text-amber-300 underline hover:text-amber-200">alternatives originales à l'argent sous l'oreiller</Link>. Vous pouvez par exemple compenser en misant à fond sur l'imaginaire : une jolie lettre personnalisée signée de sa main ou un certificat officiel. Et si jamais un matin la souris a le malheur d'oublier son passage, découvrez nos conseils pour savoir <Link to="/blog/petite-souris-a-oublie-passer-que-faire" className="text-amber-300 underline hover:text-amber-200">que faire si la Petite Souris a oublié de passer</Link>.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
         3. Associer l'argent à un mot personnalisé
       </h2>
       <p>
-        Laisser uniquement une pièce peut parfois paraître un peu impersonnel. En l'accompagnant d'un petit mot féerique qui félicite l'enfant pour son brossage de dents ou son courage, vous transformez un simple échange monétaire en un souvenir impérissable.
+        Laisser uniquement une pièce peut parfois paraître un peu impersonnel. En l'accompagnant d'un petit mot féerique qui félicite l'enfant pour son brossage de dents, vous transformez un simple échange monétaire en un souvenir impérissable (n'hésitez pas à jeter un œil à nos <Link to="/gratuit" className="text-amber-300 underline hover:text-amber-200">ressources gratuites à imprimer</Link>).
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Accompagnez la pièce d'une véritable Lettre de la Petite Souris ✨

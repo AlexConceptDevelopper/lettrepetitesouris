@@ -13,6 +13,8 @@ import { Contact } from './pages/Contact';
 
 import { ArticleView } from './pages/ArticleView';
 import { BlogIndex }  from './pages/blog/BlogIndex';
+import { FreeResources } from './pages/FreeResources';
+import { PrintablePreview } from './pages/PrintablePreview';
 
 export default function App() {
   return (
@@ -40,6 +42,12 @@ export default function App() {
           {/* Routes pour le blog (conseils sur les dents de lait, FAQ parents, etc.) */}
           <Route path="/blog" element={<BlogIndex />} /> 
           <Route path="/blog/:slug" element={<ArticleView />} /> 
+
+          {/* Route pour les imprimables et outils gratuits */}
+          <Route path="/gratuit" element={<FreeResources />} />
+
+          {/* Page d'impression en taille réelle pour chaque outil */}
+          <Route path="/gratuit/:resourceSlug" element={<PrintablePreview />} />
         </Routes>
       </BrowserRouter>
     </HelmetProvider>

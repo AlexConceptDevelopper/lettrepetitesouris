@@ -13,7 +13,6 @@ export const article: ArticleData = {
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/histoireSouris.jpg" 
@@ -33,17 +32,17 @@ export const article: ArticleData = {
         Contrairement à ce que l'on pourrait penser, la Petite Souris ne date pas d'hier. Son histoire officielle est née sous la plume de la baronne d'Aulnoy dans son conte merveilleux intitulé <em>« La Bonne Petite Souris »</em>. 
       </p>
       <p>
-        Dans cette histoire, une reine est emprisonnée par un méchant roi. Une fée se métamorphose en une petite souris rusée pour se glisser sous l'oreiller du monarque, lui faire mordre la joue et le punir, libérant ainsi la reine. La souris agile réussissait à se faufiler partout grâce à sa petite taille.
+        Dans cette histoire, une reine est emprisonnée par un méchant roi. Une fée se métamorphose en une petite souris rusée pour se glisser sous l'oreiller du monarque, lui faire mordre la joue et le punir, libérant ainsi la reine.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
         2. De la ruse de conte de fées au rituel moderne
       </h2>
       <p>
-        Au fil des siècles, le conte s'est transformé pour fusionner avec d'anciennes traditions européennes (où l'on enfouissait les dents de lait dans la terre pour s'assurer que les dents d'adulte poussent bien). La souris symbolisait à la fois la discrétion, la rapidité et la vitalité — des qualités que l'on souhaitait transmettre aux nouvelles dents de l'enfant. 
+        Au fil des siècles, le conte s'est transformé pour fusionner avec d'anciennes traditions européennes liées au calendrier de croissance et à la perte des dents (que vous pouvez explorer en détail sur notre page dédiée à <Link to="/blog/ordre-chute-dents-de-lait-calendrier" className="text-amber-300 underline hover:text-amber-200">l'ordre de chute des dents de lait</Link>). La souris symbolisait à la fois la discrétion, la rapidité et la vitalité.
       </p>
       <p>
-        Pour en savoir plus sur les aspects pratiques et les montants que l'on glisse traditionnellement en contrepartie, n'hésitez pas à parcourir notre guide sur <Link to="/blog/combien-donner-petite-souris-oreiller" className="text-amber-300 underline hover:text-amber-200">les tarifs habituels de la Petite Souris</Link>.
+        Pour en savoir plus sur les aspects pratiques et les montants que l'on glisse traditionnellement en contrepartie sous l'oreiller, n'hésitez pas à parcourir notre guide sur <Link to="/blog/combien-donner-petite-souris-oreiller" className="text-amber-300 underline hover:text-amber-200">les tarifs habituels de la Petite Souris</Link> ou nos idées <Link to="/blog/que-mettre-sous-oreiller-a-part-argent" className="text-amber-300 underline hover:text-amber-200">d'alternatives à l'argent</Link>.
       </p>
 
       <div className="bg-slate-900/90 border-l-4 border-pink-400 p-4 rounded-r-2xl my-4 text-xs md:text-sm">
@@ -54,10 +53,9 @@ export const article: ArticleData = {
         3. Faire vivre la légende aujourd'hui
       </h2>
       <p>
-        Aujourd'hui, perpétuer cette magnifique légende demande un brin d'organisation pour les parents. Entre la récupération de la dent au milieu de la nuit et le dépôt de la surprise, l'utilisation de <Link to="/" className="text-pink-300 underline hover:text-pink-200">kits prêts-à-imprimer</Link> permet de donner corps à ce conte séculaire de la plus belle des manières.
+        Aujourd'hui, perpétuer cette magnifique légende demande un brin d'organisation pour les parents. Entre la récupération de la dent au milieu de la nuit et le dépôt de la surprise, l'utilisation de <Link to="/gratuit" className="text-amber-300 underline hover:text-amber-200">kits prêts-à-imprimer gratuits</Link> ou de nos <Link to="/" className="text-pink-300 underline hover:text-pink-200">lettres personnalisées</Link> permet de donner corps à ce conte séculaire de la plus belle des manières.
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Faites entrer la magie du conte dans votre foyer ✨

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import type { DocumentData, CreateOrderRequest } from "../types/document";
 import { checkoutOrder } from "../apis/orderApi";
 import { Navbar } from "../components/Navbar";
@@ -98,8 +99,8 @@ export function Home() {
     try {
       const orderRequest: CreateOrderRequest = {
         customerEmail,
-        includeEnvelope: true, // Toujours inclure ou adapter selon backend
-        offerType: selectedOffer, // Transmet si c'est 'full' ou 'envelope_only'
+        includeEnvelope: true,
+        offerType: selectedOffer,
         documentData: {
           ...formData,
         },
@@ -144,15 +145,15 @@ export function Home() {
 
       <Navbar />
 
-      <main className="w-full max-w-7xl mx-auto px-4 py-8 md:py-12 grow flex flex-col justify-center">
-        {/* SECTION SPLIT-SCREEN HÉRO */}
+      <main className="w-full max-w-7xl mx-auto px-4 py-8 md:py-12 grow flex flex-col justify-center space-y-16">
+        {/* SECTION SPLIT-SCREEN HÉRO PRINCIPALE */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
-          {/* COLONNE GAUCHE : Titre, Explication & Offres Claires Directes */}
+          {/* COLONNE GAUCHE : Titre, Explication & Formules Personnalisées */}
           <div className="lg:col-span-6 space-y-6 text-left">
             <div className="flex flex-wrap items-center gap-2.5">
               <span className="inline-block px-3.5 py-1 bg-slate-900 border border-pink-500/30 text-pink-300 rounded-full text-xs font-bold tracking-widest uppercase shadow-xs">
-                🌸 Téléchargement PDF Immédiat 🌸
+                🌸 100% Sur-Mesure & PDF Immédiat 🌸
               </span>
               <span className="inline-block px-3 py-1 bg-amber-400 text-slate-950 font-black rounded-full text-xs shadow-md">
                 Dès 0,99 € ✨
@@ -169,15 +170,17 @@ export function Home() {
 
             <p className="text-slate-300 text-sm md:text-base font-medium leading-relaxed">
               {!isQuizCompleted
-                ? "Immortalisez la perte de la dent de lait de votre enfant. Personnalisez votre kit magique prêt à imprimer en moins d'une minute !"
-                : `Le dossier magique est prêt pour ${formData.childName} ! Choisissez votre formule ci-dessous et téléchargez votre PDF.`}
+                ? "Immortalisez la perte de la dent de lait avec une lettre personnalisée au prénom, âge et détails uniques de votre enfant. Prêt en 1 minute !"
+                : `Le dossier magique personnalisé est prêt pour ${formData.childName} ! Choisissez votre formule ci-dessous et téléchargez votre PDF.`}
             </p>
 
-            {/* SELECTION RAPIDE DE L'OFFRE (VISIBLE IMMÉDIATEMENT SANS VALIDER LE QUIZ) */}
-            <div className="p-4 bg-slate-900/90 border border-amber-400/30 rounded-3xl space-y-3 shadow-lg">
+            {/* SELECTION RAPIDE DE L'OFFRE AVEC INSISTE SUR LA PERSONNALISATION */}
+            <div className="p-4 bg-slate-900/90 border border-amber-400/40 rounded-3xl space-y-3 shadow-lg">
               <div className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center justify-between">
-                <span>✨ Nos 2 Formules Magiques</span>
-                <span className="text-[10px] text-slate-400 font-normal">Réception instantanée par e-mail</span>
+                <span>✨ Formules 100% Personnalisées</span>
+                <span className="text-[10px] text-pink-300 font-bold bg-pink-500/20 px-2 py-0.5 rounded-full border border-pink-500/30">
+                  Au prénom de votre enfant ✍️
+                </span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -196,6 +199,7 @@ export function Home() {
                   </div>
                   <div className="text-xs font-black text-white">Kit Souvenir Complet</div>
                   <div className="text-[10px] text-slate-300">Certificat + Lettre + Enveloppe</div>
+                  <div className="text-[9px] text-amber-200 font-semibold mt-0.5">⭐ Texte & prénom sur-mesure</div>
                   <div className="text-sm font-black text-pink-300 mt-1">1,99 €</div>
                 </button>
 
@@ -211,6 +215,7 @@ export function Home() {
                 >
                   <div className="text-xs font-black text-white">Enveloppe Magique</div>
                   <div className="text-[10px] text-slate-300">Gabarit A4 à plier seul</div>
+                  <div className="text-[9px] text-amber-200 font-semibold mt-0.5">⭐ Adressée à l'enfant</div>
                   <div className="text-sm font-black text-amber-300 mt-1">0,99 €</div>
                 </button>
               </div>
@@ -221,7 +226,7 @@ export function Home() {
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
                 <span className="text-lg">📜</span>
                 <span className="text-xs font-bold text-slate-200">
-                  Certificat Officiel
+                  Certificat Nominatif
                 </span>
               </div>
               <div className="flex items-center gap-2.5 p-3 bg-slate-900/80 border border-slate-800 rounded-2xl shadow-xs">
@@ -248,7 +253,7 @@ export function Home() {
                 >
                   {/* Ruban Prix Dynamique */}
                   <div className="absolute -top-1 -right-1 bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black uppercase px-4 py-1 rounded-bl-xl shadow-md">
-                    {selectedOffer === "full" ? "Kit PDF • 1,99 €" : "Enveloppe seul • 0,99 €"}
+                    {selectedOffer === "full" ? "Kit PDF Sur-Mesure • 1,99 €" : "Enveloppe Sur-Mesure • 0,99 €"}
                   </div>
 
                   <div className="flex items-center justify-between border-b border-slate-800 pb-3 pt-2">
@@ -329,8 +334,8 @@ export function Home() {
                       onChange={(e) => setSelectedOffer(e.target.value as "full" | "envelope_only")}
                       className="bg-slate-900 text-amber-300 text-xs font-bold border border-amber-400/40 rounded-xl px-3 py-1.5 outline-none cursor-pointer"
                     >
-                      <option value="full">Kit Complet Souvenir (1,99 €)</option>
-                      <option value="envelope_only">Enveloppe seule (0,99 €)</option>
+                      <option value="full">Kit Complet Personnalisé (1,99 €)</option>
+                      <option value="envelope_only">Enveloppe Personnalisée (0,99 €)</option>
                     </select>
                   </div>
 
@@ -363,7 +368,7 @@ export function Home() {
                       "Génération du PDF en cours..."
                     ) : (
                       <>
-                        <span>🎁 Télécharger mon Kit PDF</span>
+                        <span>🎁 Télécharger mon Kit Personnalisé</span>
                         <span className="bg-slate-950 text-amber-300 px-2.5 py-0.5 rounded-full text-[11px] font-extrabold border border-amber-400/30">
                           {currentPrice} €
                         </span>
@@ -375,6 +380,87 @@ export function Home() {
             )}
           </div>
         </div>
+
+        {/* SECTION DES 4 OUTILS & IMPRIMABLES GRATUITS */}
+        <section className="w-full border-t border-slate-800/80 pt-12 text-left">
+          <div className="text-center space-y-3 mb-8">
+            <span className="px-3.5 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/30 rounded-full text-[10px] font-bold uppercase tracking-wider">
+              🎁 100% Gratuit & Imprimable Neutre
+            </span>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-white">
+              Nos ateliers & outils magiques à imprimer chez vous
+            </h2>
+            <p className="text-slate-400 text-xs md:text-sm max-w-xl mx-auto">
+              Accompagnez chaque étape de la perte des dents avec nos supports gratuits standards en libre accès.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* 1. Diplôme Neutre */}
+            <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-pink-500/40 transition group">
+              <div className="space-y-2">
+                <span className="text-3xl">📜</span>
+                <h3 className="text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
+                  Diplôme de Bravoure PDF
+                </h3>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Un certificat officiel standard à remplir au stylo pour féliciter votre enfant.
+                </p>
+              </div>
+              <Link to="/gratuit" className="text-xs font-bold text-pink-300 hover:underline">
+                Imprimer en Taille Réelle →
+              </Link>
+            </div>
+
+            {/* 2. Calendrier / Check-list */}
+            <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-amber-400/40 transition group">
+              <div className="space-y-2">
+                <span className="text-3xl">🗓️</span>
+                <h3 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
+                  Calendrier des Dents
+                </h3>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  La grille visuelle de la dentition à afficher sur le frigo pour cocher chaque dent.
+                </p>
+              </div>
+              <Link to="/gratuit" className="text-xs font-bold text-amber-300 hover:underline">
+                Imprimer la grille →
+              </Link>
+            </div>
+
+            {/* 3. Coloriage & Message */}
+            <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-purple-400/40 transition group">
+              <div className="space-y-2">
+                <span className="text-3xl">🎨</span>
+                <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">
+                  Kit Coloriage & Dessin
+                </h3>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Une fiche dessin et questionnaire ("J'ai bien brossé mes dents") à laisser sous l'oreiller.
+                </p>
+              </div>
+              <Link to="/gratuit" className="text-xs font-bold text-purple-300 hover:underline">
+                Imprimer le kit →
+              </Link>
+            </div>
+
+            {/* 4. Ticket de caisse / Reçu */}
+            <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-emerald-400/40 transition group">
+              <div className="space-y-2">
+                <span className="text-3xl">🧾</span>
+                <h3 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
+                  Reçu Banque du Royaume
+                </h3>
+                <p className="text-slate-400 text-xs leading-relaxed">
+                  Un bon d'échange officiel rigolo de la Banque de la Petite Souris (1 dent = 1 sourire).
+                </p>
+              </div>
+              <Link to="/gratuit" className="text-xs font-bold text-emerald-300 hover:underline">
+                Imprimer le reçu →
+              </Link>
+            </div>
+          </div>
+        </section>
       </main>
 
       <Footer />

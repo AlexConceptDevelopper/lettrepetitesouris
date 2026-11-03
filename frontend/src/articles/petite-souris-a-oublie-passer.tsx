@@ -13,7 +13,6 @@ export const article: ArticleData = {
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/oubliSouris.jpg" 
@@ -30,11 +29,11 @@ export const article: ArticleData = {
         1. Trouver une excuse féerique crédible
       </h2>
       <p>
-        Ne paniquez surtout pas ! Les enfants ont une imagination débordante et sont prêts à croire de belles explications logistiques adaptées au monde magique :
+        Ne paniquez surtout pas ! Les enfants ont une imagination débordante et sont prêts à croire de belles explications logistiques adaptées au monde magique (comme le détail de ses tournées que l'on évoque dans notre article sur <Link to="/blog/histoire-et-origine-tradition-petite-souris" className="text-amber-300 underline hover:text-amber-200">l'histoire de la tradition</Link>) :
       </p>
 
       <ul className="list-disc list-inside space-y-2 pl-2 text-slate-300">
-        <li><strong>L'excasse de travail :</strong> La Petite Souris a eu énormément de dents à récolter cette nuit-là dans le monde entier et sa tournée a pris du retard.</li>
+        <li><strong>L'excuse de travail :</strong> La Petite Souris a eu énormément de dents à récolter cette nuit-là dans le monde entier et sa tournée a pris du retard.</li>
         <li><strong>La cachette trop discrète :</strong> La dent était si bien cachée sous l'oreiller que la souris n'a pas osé glisser sa patte de peur de réveiller l'enfant.</li>
         <li><strong>Un léger contretemps météo :</strong> Son carrosse miniature a dû faire un détour à cause d'un gros nuage de pluie !</li>
       </ul>
@@ -47,17 +46,16 @@ export const article: ArticleData = {
         2. Préparer une lettre de rattrapage officielle
       </h2>
       <p>
-        Pour que l'attente devienne une force et que la déception se transforme en double excitation, vous pouvez utiliser notre <Link to="/" className="text-amber-300 underline hover:text-amber-200">générateur de lettres magiques</Link> pour imprimer un mot d'excuse officiel signé de la patte de la Petite Souris dès le lendemain matin. Accompagnez cela d'un examen approfondi sur <Link to="/blog/a-quel-age-tombe-premiere-dent-de-lait" className="text-pink-300 underline hover:text-pink-200">la chronologie des chutes de dents</Link> pour occuper l'enfant.
+        Pour que l'attente devienne une force et que la déception se transforme en double excitation, vous pouvez utiliser notre <Link to="/" className="text-amber-300 underline hover:text-amber-200">générateur de lettres magiques</Link> pour imprimer un mot d'excuse officiel signé de la patte de la Petite Souris dès le lendemain matin. Si vous vous interrogez sur le montant à laisser pour compenser cet oubli, consultez notre guide sur <Link to="/blog/combien-donner-petite-souris-oreiller" className="text-pink-300 underline hover:text-pink-200">les tarifs habituels de la Petite Souris</Link>.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
         3. Sécuriser le prochain passage
       </h2>
       <p>
-        Pour éviter que cela ne se reproduise, installez une véritable petite <Link to="/" className="text-pink-300 underline hover:text-pink-200">enveloppe dédiée</Link> bien visible sur la table de chevet ou accrochée au bord du lit. La Petite Souris ne pourra plus la rater !
+        Pour éviter que cela ne se reproduise, installez une véritable petite enveloppe dédiée (que vous pouvez retrouver dans nos <Link to="/gratuit" className="text-pink-300 underline hover:text-pink-200">kits d'imprimables gratuits</Link>) bien visible sur la table de chevet ou accrochée au bord du lit. La Petite Souris ne pourra plus la rater !
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Rattrapez le coup avec une lettre d’excuse officielle ✨

@@ -13,7 +13,6 @@ export const article: ArticleData = {
   content: (
     <div className="space-y-6 text-slate-300 text-sm md:text-base leading-relaxed font-sans">
       
-      {/* IMAGE D'ILLUSTRATION AVEC ALT OPTIMISÉ */}
       <div className="overflow-hidden rounded-2xl border border-amber-400/20 shadow-lg my-4">
         <img 
           src="/images/alternativesOreiller.jpg" 
@@ -30,14 +29,14 @@ export const article: ArticleData = {
         1. La lettre personnalisée et le certificat officiel
       </h2>
       <p>
-        C'est l'alternative par excellence. Un enfant accorde souvent beaucoup plus de valeur à un message personnel qui lui est adressé qu'à une simple pièce. Une belle lettre calligraphiée, félicitant son courage et soulignant l'importance de son brossage de dents, constitue un trésor inestimable à conserver dans sa boîte à souvenirs. Vous pouvez facilement concevoir ce type de support grâce à notre <Link to="/" className="text-amber-300 underline hover:text-amber-200">générateur de kits personnalisés</Link>.
+        C'est l'alternative par excellence. Un enfant accorde souvent beaucoup plus de valeur à un message personnel qui lui est adressé qu'à une simple pièce. Une belle lettre calligraphiée, félicitant son courage et soulignant l'importance de son brossage de dents, constitue un trésor inestimable à conserver dans sa boîte à souvenirs. Vous pouvez facilement concevoir ce type de support grâce à notre <Link to="/" className="text-amber-300 underline hover:text-amber-200">générateur de kits personnalisés</Link> ou découvrir nos <Link to="/gratuit" className="text-amber-300 underline hover:text-amber-200">imprimables gratuits</Link>.
       </p>
 
       <h2 className="text-xl font-bold text-amber-300 pt-2 border-b border-slate-800 pb-2">
         2. Les petits livres ou mini-bandes dessinées
       </h2>
       <p>
-        Glisser un mini-livre de poche ou un petit conte illustré sous l'oreiller est une excellente manière d'encourager la lecture tout en prolongeant l'univers merveilleux de la nuit. C'est un cadeau pérenne qui ne se dépensera pas en quelques minutes !
+        Glisser un mini-livre de poche ou un petit conte illustré sous l'oreiller est une excellente manière d'encourager la lecture tout en prolongeant l'univers merveilleux de la nuit. C'est un cadeau pérenne qui ne se dépensera pas en quelques minutes ! Et si vous souhaitez comprendre d'où vient toute cette magie, n'hésitez pas à lire notre article sur <Link to="/blog/histoire-et-origine-tradition-petite-souris" className="text-amber-300 underline hover:text-amber-200">l'histoire et l'origine de la tradition de la Petite Souris</Link>.
       </p>
 
       <div className="bg-slate-900/90 border-l-4 border-pink-400 p-4 rounded-r-2xl my-4 text-xs md:text-sm">
@@ -48,10 +47,9 @@ export const article: ArticleData = {
         3. Un petit objet porte-bonheur ou un badge officiel
       </h2>
       <p>
-        Un joli badge "Agent Officiel du Royaume des Dents", une pierre semi-précieuse étincelante (comme un faux cristal magique) ou un petit sachet de paillettes dorées font de superbes surprises visuelles qui font briller les yeux des enfants dès le réveil.
+        Un joli badge "Agent Officiel du Royaume des Dents", une pierre semi-précieuse étincelante (comme un faux cristal magique) ou un petit sachet de paillettes dorées font de superbes surprises visuelles qui font briller les yeux des enfants dès le réveil. Si votre enfant appréhende un peu le moment où la dent va s'en aller, vous trouverez de précieux conseils dans notre guide pour <Link to="/blog/comment-aider-enfant-peur-dent-qui-bouge" className="text-amber-300 underline hover:text-amber-200">aider un enfant qui a peur d'une dent qui bouge</Link>.
       </p>
 
-      {/* CALL TO ACTION DANS L'ARTICLE OPTIMISÉ SEO */}
       <div className="my-8 p-6 bg-linear-to-r from-pink-950/60 via-slate-900 to-amber-950/60 border border-amber-400/30 rounded-3xl text-center space-y-4 shadow-2xl">
         <h3 className="text-lg font-black text-white">
           Optez pour la magie d’une véritable lettre personnalisée ✨
