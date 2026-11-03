@@ -384,14 +384,14 @@ export function Home() {
         {/* SECTION DES 4 OUTILS & IMPRIMABLES GRATUITS */}
         <section className="w-full border-t border-slate-800/80 pt-12 text-left">
           <div className="text-center space-y-3 mb-8">
-            <span className="px-3.5 py-1 bg-purple-500/10 text-purple-300 border border-purple-500/30 rounded-full text-[10px] font-bold uppercase tracking-wider">
-              🎁 100% Gratuit & Imprimable Neutre
+            <span className="px-3.5 py-1 bg-emerald-500/10 text-emerald-300 border border-emerald-500/30 rounded-full text-[10px] font-bold uppercase tracking-wider">
+              🎁 100% GRATUIT & EN LIBRE ACCÈS 🎁
             </span>
             <h2 className="text-2xl md:text-4xl font-extrabold text-white">
-              Nos ateliers & outils magiques à imprimer chez vous
+              Nos ateliers & outils magiques à imprimer gratuitement
             </h2>
             <p className="text-slate-400 text-xs md:text-sm max-w-xl mx-auto">
-              Accompagnez chaque étape de la perte des dents avec nos supports gratuits standards en libre accès.
+              Accompagnez chaque étape de la perte des dents avec nos supports entièrement gratuits en téléchargement direct.
             </p>
           </div>
 
@@ -400,6 +400,9 @@ export function Home() {
             <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-pink-500/40 transition group">
               <div className="space-y-2">
                 <span className="text-3xl">📜</span>
+                <span className="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-bold text-[9px] uppercase rounded-full mb-1">
+                  100% Gratuit
+                </span>
                 <h3 className="text-sm font-bold text-white group-hover:text-pink-300 transition-colors">
                   Diplôme de Bravoure PDF
                 </h3>
@@ -408,7 +411,7 @@ export function Home() {
                 </p>
               </div>
               <Link to="/gratuit" className="text-xs font-bold text-pink-300 hover:underline">
-                Imprimer en Taille Réelle →
+                Imprimer gratuitement →
               </Link>
             </div>
 
@@ -416,6 +419,9 @@ export function Home() {
             <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-amber-400/40 transition group">
               <div className="space-y-2">
                 <span className="text-3xl">🗓️</span>
+                <span className="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-bold text-[9px] uppercase rounded-full mb-1">
+                  100% Gratuit
+                </span>
                 <h3 className="text-sm font-bold text-white group-hover:text-amber-300 transition-colors">
                   Calendrier des Dents
                 </h3>
@@ -432,6 +438,9 @@ export function Home() {
             <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-purple-400/40 transition group">
               <div className="space-y-2">
                 <span className="text-3xl">🎨</span>
+                <span className="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-bold text-[9px] uppercase rounded-full mb-1">
+                  100% Gratuit
+                </span>
                 <h3 className="text-sm font-bold text-white group-hover:text-purple-300 transition-colors">
                   Kit Coloriage & Dessin
                 </h3>
@@ -448,6 +457,9 @@ export function Home() {
             <div className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl flex flex-col justify-between space-y-4 hover:border-emerald-400/40 transition group">
               <div className="space-y-2">
                 <span className="text-3xl">🧾</span>
+                <span className="inline-block px-2 py-0.5 bg-emerald-500/20 text-emerald-300 font-bold text-[9px] uppercase rounded-full mb-1">
+                  100% Gratuit
+                </span>
                 <h3 className="text-sm font-bold text-white group-hover:text-emerald-300 transition-colors">
                   Reçu Banque du Royaume
                 </h3>
