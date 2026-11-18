@@ -5,6 +5,8 @@ import { article as histoireSouris } from './histoire-origine-petite-souris';
 import { article as alternativesArgent } from './alternatives-argent-sous-oreiller';
 import { article as oubliSouris } from './petite-souris-a-oublie-passer';
 import { article as ordreDents } from './ordre-chute-dents-de-lait';
+import { article as hygieneDentaire } from './hygiene-dentaire-enfants-brossage';
+import { article as petitesSourisVsFeedesDents } from './petite-souris-vs-fee-des-dents-traditions-monde';
 import type { ArticleData } from '../types/article';
 
 export const articles: ArticleData[] = [
@@ -15,6 +17,8 @@ export const articles: ArticleData[] = [
   alternativesArgent,
   oubliSouris,
   ordreDents,
+  hygieneDentaire,
+  petitesSourisVsFeedesDents,
 ];
 
 export const getArticleBySlug = (slug: string): ArticleData | undefined => {
