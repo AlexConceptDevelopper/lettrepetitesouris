@@ -9,5 +9,6 @@ export interface ArticleData {
   category: string;
   image?: string;
   keywords?: string[];
+  jsonLd?: Record<string, unknown>;
   content: React.ReactNode;
 }
